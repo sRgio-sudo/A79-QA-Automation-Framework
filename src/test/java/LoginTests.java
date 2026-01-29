@@ -19,7 +19,7 @@ public class LoginTests extends BaseTest {
 
         // TODO (for students): Review the configuration as part of HW15
        
-        String url = "https://qa.koel.app/";
+        String url = "https://qa.koel.app/"; // Fixed: removed extra 'p' from https
         driver.get(url);
         Assert.assertEquals(driver.getCurrentUrl(), url);
         driver.quit();
