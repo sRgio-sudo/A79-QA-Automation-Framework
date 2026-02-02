@@ -1,27 +1,37 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import locators.KoelSelectors;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
+import static locators.KoelSelectors.submitButton;
 
 public class LoginTests extends BaseTest {
     @Test
     public void loginEmptyEmailPassword() {
 
-//      Added ChromeOptions argument below to fix websocket error
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-        // TODO (for students): Review the configuration as part of HW15
-       
-        String url = "https://qa.koel.app/";
         driver.get(url);
         Assert.assertEquals(driver.getCurrentUrl(), url);
-        driver.quit();
     }
+
+    @Test
+    public void registrationNavigation() {
+        driver.get(url);
+
+        driver.findElement(KoelSelectors.registrationLink).click(); // can also use var2
+        WebElement buttonSubmit = driver.findElement(submitButton);
+        String buttonText = buttonSubmit.getAttribute("value");
+        Assert.assertEquals(buttonText, "Submit");
+        }
 }
+//WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
+//        emailField.click();
+//        emailField.clear();
+//        emailField.sendKeys("sergei.trofimov@testpro.io");
+//WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
+//        passwordField.click();
+//        passwordField.clear();
+//        passwordField.sendKeys("uIIgWoYu");
+//WebElement submit = driver.findElement(By.cssSelector("button[type='submit']"));
+//        submit.click();
+
+
