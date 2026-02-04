@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 public class Homework17 extends BaseTest {
@@ -19,6 +20,11 @@ public class Homework17 extends BaseTest {
         String succesMessage = succesIcon.getText();
         Assert.assertEquals(succesMessage, "Added 1 song into \"Playlist2.\"");
 
+    }
+    @AfterMethod
+    public void cleanUp() throws InterruptedException {
+        Thread.sleep(3000);
+        deleteAddedSong();
     }
 
     private void songSearch(String songName) {

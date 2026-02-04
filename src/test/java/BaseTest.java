@@ -1,9 +1,11 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -58,7 +60,7 @@ public class BaseTest {
     }
 
     protected void clickOnAvatarIcon() {
-        WebElement avatarIcon = driver.findElement(By.xpath("//img[@class='avatar']"));
+        WebElement avatarIcon = driver.findElement(By.xpath("//a[@data-testid='view-profile-link']"));
         avatarIcon.click();
 
     }
@@ -70,5 +72,13 @@ public class BaseTest {
     public String generateRandomName() {
         return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5);
 
+    }
+
+    public void deleteAddedSong() {
+        driver.findElement(By.xpath("//section[@id='playlists']//a[contains(text(), 'Playlist2')]")).click();
+        WebElement addedSong = driver.findElement(By.xpath("//section[@id='playlistWrapper']//table[@class='items']//td[contains(text(), 'HoliznaCC0 - Way Of The Samurai')]"));
+        addedSong.click();
+        Actions action = new Actions(driver);
+        action.sendKeys(Keys.DELETE).perform();
     }
 }
