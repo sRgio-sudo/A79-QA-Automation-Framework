@@ -15,7 +15,7 @@ public class LoginTests extends BaseTest {
     }
 
     @Test
-    public void loginValidEmailPassord() {
+    public void loginValidEmailPassword() {
         navigatingToPage();
         provideEmail("sergei.trofimov@testpro.io");
         providePassword("uIIgWoYu");
