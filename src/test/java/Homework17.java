@@ -31,5 +31,6 @@ public class Homework17 extends BaseTest {
         WebElement searchField = driver.findElement(By.xpath("//input[@name='q']"));
         searchField.clear();
         searchField.sendKeys(songName);
+        searchField.click();
     }
 }

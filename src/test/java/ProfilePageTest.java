@@ -10,14 +10,14 @@ public class ProfilePageTest extends BaseTest {
         provideEmail("sergei.trofimov@testpro.io");
         providePassword("uIIgWoYu");
         clickSubmit();
+        Thread.sleep(3000);
         clickOnAvatarIcon();
-//        Thread.sleep(3000);
         currentPass("uIIgWoYu");
         String newName = generateRandomName();
         provideNewProfileName(newName);
-//        Thread.sleep(5000);
+        Thread.sleep(5000);
         clickSaveButton();
-        Thread.sleep(300);
+        Thread.sleep(3000);
         WebElement actualProfileName = driver.findElement(By.xpath("//span[@class='name']"));
         Assert.assertEquals(actualProfileName.getText(), newName);
     }
