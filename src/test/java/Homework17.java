@@ -29,8 +29,8 @@ public class Homework17 extends BaseTest {
 
     private void songSearch(String songName) {
         WebElement searchField = driver.findElement(By.xpath("//input[@name='q']"));
+        searchField.click();
         searchField.clear();
         searchField.sendKeys(songName);
-        searchField.click();
     }
 }

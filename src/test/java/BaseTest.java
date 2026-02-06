@@ -16,6 +16,9 @@ import java.util.UUID;
 public class BaseTest {
     public WebDriver driver;
     public String url = "https://qa.koel.app/";
+    protected String validEmail = "sergei.trofimov@testpro.io";
+    protected String validPassword = "uIIgWoYu";
+    protected
 
     @BeforeSuite
     static void setupClass() {
@@ -46,10 +49,10 @@ public class BaseTest {
     }
 
     protected void providePassword(String password) {
-        WebElement passwodField = driver.findElement(By.cssSelector("input[type='password']"));
-        passwodField.click();
-        passwodField.clear();
-        passwodField.sendKeys(password);
+        WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
+        passwordField.click();
+        passwordField.clear();
+        passwordField.sendKeys(password);
     }
 
     protected void provideEmail(String email) {
@@ -80,5 +83,15 @@ public class BaseTest {
         addedSong.click();
         Actions action = new Actions(driver);
         action.sendKeys(Keys.DELETE).perform();
+    }
+
+    protected void selectNextSong() {
+        WebElement nextSong = driver.findElement(By.cssSelector("[data-testid='play-next-btn']"));
+        nextSong.click();
+    }
+
+    protected void clickPlayButton() {
+        WebElement playButton = driver.findElement(By.cssSelector(".album-thumb-wrapper [role='button']"));
+        playButton.click();
     }
 }
