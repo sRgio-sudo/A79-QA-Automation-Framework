@@ -4,43 +4,21 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoginTests extends BaseTest {
-
+@Test (dataProvider = "IncorrectLoginData", dataProviderClass = TestDataProviders.class)
+public void loginWithIncorrectData(String email, String password) {
+    navigatingToPage();
+    provideEmail(email);
+    providePassword(password);
+    clickSubmit();
+    Assert.assertEquals(driver.getCurrentUrl(), url);
+}
     @Test
-    public void loginEmptyEmailPassword() {
+    public void loginValidData() {
         navigatingToPage();
-        provideEmail("");
-        providePassword("uIIgWoYu");
-        clickSubmit();
-        Assert.assertEquals(driver.getCurrentUrl(), url);
-    }
-
-    @Test
-    public void loginValidEmailPassword() {
-        navigatingToPage();
-        provideEmail("sergei.trofimov@testpro.io");
-        providePassword("uIIgWoYu");
+        provideEmail(validEmail);
+        providePassword(validPassword);
         clickSubmit();
         WebElement avatarIcon = driver.findElement(By.xpath("//img[@class='avatar']"));
         Assert.assertTrue(avatarIcon.isDisplayed());
-    }
-
-    @Test
-    public void loginInvalidEmail() {
-        navigatingToPage();
-        provideEmail("@testpro.io");
-        providePassword("uIIgWoYu");
-        clickSubmit();
-        String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, url);
-    }
-
-    @Test
-    public void loginInvalidPassord() {
-        navigatingToPage();
-        provideEmail("sergei.trofimov@testpro.io");
-        providePassword("uIIgWoYu");
-        clickSubmit();
-        String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, url);
     }
 }

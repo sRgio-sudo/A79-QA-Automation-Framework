@@ -7,12 +7,12 @@ public class ProfilePageTest extends BaseTest {
     @Test
     public void updateProfileName() throws InterruptedException {
         navigatingToPage();
-        provideEmail("sergei.trofimov@testpro.io");
-        providePassword("uIIgWoYu");
+        provideEmail(validEmail);
+        providePassword(validPassword);
         clickSubmit();
         Thread.sleep(3000);
         clickOnAvatarIcon();
-        currentPass("uIIgWoYu");
+        currentPass(validPassword);
         String newName = generateRandomName();
         provideNewProfileName(newName);
         Thread.sleep(5000);

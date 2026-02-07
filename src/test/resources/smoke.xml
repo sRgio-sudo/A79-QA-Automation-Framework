@@ -2,13 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Smoke">
-
-    <test name="Smoke Test" preserve-order="false">
+    <parameter name="BaseURL" value="https://qa.koel.app/"/>
+    <parameter name="headLess" value="true"/>
+    <test name="Smoke Test" preserve-order="true">
         <classes>
             <class name="LoginTests">
-            <methods>
-                <include name="loginValidEmailPassword"/>
-            </methods>
             </class>
         </classes>
     </test>

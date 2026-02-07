@@ -17,6 +17,19 @@ dependencies {
 
 test {
     useTestNG() {
-        suites "src/test/resources/TestNG.xml"
+        suites "src/test/resources/Regression.xml"
     }
 }
+
+
+//tasks.register('Smoke', Test) {
+//    useTestNG() {
+//        suites "src/test/resources/Smoke.xml"
+//    }
+//}
+//
+//tasks.register('Regression', Test) {
+//    useTestNG() {
+//        suites "src/test/resources/Regression.xml"
+//    }
+//}
