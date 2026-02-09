@@ -8,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.time.Duration;
@@ -16,11 +15,10 @@ import java.util.UUID;
 
 public class BaseTest {
     public WebDriver driver;
+    public WebDriverWait wait;
     public String url = "https://qa.koel.app/";
     protected static String validEmail = "sergei.trofimov@testpro.io";
     protected static String validPassword = "uIIgWoYu";
-
-    protected
 
     @BeforeSuite
     static void setupClass() {
@@ -44,9 +42,11 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(4));
         url = BaseURL;
         navigatingToPage();
     }
+
 
     @AfterMethod
     public void closeBrowser() {
@@ -54,20 +54,18 @@ public class BaseTest {
     }
 
     protected void clickSubmit() {
-        WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
+        WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[type='submit']")));
         submitButton.click();
     }
 
     protected void providePassword(String password) {
-        WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
-        passwordField.click();
+        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']")));
         passwordField.clear();
         passwordField.sendKeys(password);
     }
 
     protected void provideEmail(String email) {
-        WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
-        emailField.click();
+        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']")));
         emailField.clear();
         emailField.sendKeys(email);
     }
@@ -105,10 +103,9 @@ public class BaseTest {
         playButton.click();
     }
 
-    protected void checkSuccess() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show']")));
-        Assert.assertTrue(noticeMessage.isDisplayed());
-        wait.until(ExpectedConditions.invisibilityOf(noticeMessage));
-    }
+//    protected void checkSuccess() {
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show']")));
+//        Assert.assertTrue(noticeMessage.isDisplayed());
+//        wait.until(ExpectedConditions.invisibilityOf(noticeMessage));
 }
