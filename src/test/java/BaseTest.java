@@ -42,7 +42,7 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         url = BaseURL;
         navigatingToPage();
     }
@@ -104,6 +104,29 @@ public class BaseTest {
     protected void clickPlayButton() {
         WebElement playButton = driver.findElement(By.cssSelector(".album-thumb-wrapper [role='button']"));
         playButton.click();
+    }
+
+    protected void createPlaylist(String playListName) {
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
+                ("i[data-testid='sidebar-create-playlist-btn']")))
+                .click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
+                ("li[data-testid='playlist-context-menu-create-simple']")))
+                .click();
+        WebElement inputNewPlayListName = wait.until(ExpectedConditions.elementToBeClickable
+                (By.cssSelector(".create input[name='name']")));
+        inputNewPlayListName.clear();
+        inputNewPlayListName.sendKeys(playListName);
+        inputNewPlayListName.sendKeys(Keys.ENTER);
+    }
+
+    protected void deletePlaylist(String playListName) {
+        wait.until(ExpectedConditions
+                .invisibilityOfElementLocated(By.xpath("//div[@class='success show']")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
+                "//a[contains(text(), '" +  playListName + "')]"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//button[@class='del btn-delete-playlist']"))).click();
     }
 
 //    protected void checkSuccess() {
