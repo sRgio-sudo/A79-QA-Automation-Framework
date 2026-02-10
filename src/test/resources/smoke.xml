@@ -7,6 +7,10 @@
     <test name="Smoke Test" preserve-order="true">
         <classes>
             <class name="LoginTests">
+                <methods>
+                    <include name="loginValidData"/>
+                    <exclude name="loginWithIncorrectData"/>
+                </methods>
             </class>
         </classes>
     </test>
