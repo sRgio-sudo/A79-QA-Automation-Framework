@@ -42,7 +42,7 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         url = BaseURL;
         navigatingToPage();
     }
@@ -65,13 +65,16 @@ public class BaseTest {
     }
 
     protected void provideEmail(String email) {
-        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']")));
+        WebElement emailField = wait.until(ExpectedConditions
+                .visibilityOfElementLocated(By.cssSelector("input[type='email']")));
         emailField.clear();
         emailField.sendKeys(email);
     }
 
     protected void clickOnAvatarIcon() {
-        WebElement avatarIcon = driver.findElement(By.xpath("//a[@data-testid='view-profile-link']"));
+//        WebElement avatarIcon = driver.findElement(By.xpath("//a[@data-testid='view-profile-link']"));
+        WebElement avatarIcon = wait.until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//a[@data-testid='view-profile-link']")));
         avatarIcon.click();
 
     }
