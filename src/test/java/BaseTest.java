@@ -89,11 +89,18 @@ public class BaseTest {
     }
 
     public void deleteAddedSong() {
-        driver.findElement(By.xpath("//section[@id='playlists']//a[contains(text(), 'Playlist2')]")).click();
-        WebElement addedSong = driver.findElement(By.xpath("//section[@id='playlistWrapper']//table[@class='items']//td[contains(text(), 'HoliznaCC0 - Way Of The Samurai')]"));
+        wait.until(ExpectedConditions.elementToBeClickable
+                        (By.xpath("//section[@id='playlists']//a[contains(text(), 'Playlist2')]")))
+                .click();
+        WebElement addedSong = wait.until
+                (ExpectedConditions.elementToBeClickable(
+                        By.xpath("//section[@id='playlistWrapper']" +
+                                "//table[@class='items']//td[contains(text(), 'HoliznaCC0 - Way Of The Samurai')]")));
         addedSong.click();
         Actions action = new Actions(driver);
         action.sendKeys(Keys.DELETE).perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated
+                (By.xpath("//div[@class='success show']")));
     }
 
     protected void selectNextSong() {
@@ -108,10 +115,10 @@ public class BaseTest {
 
     protected void createPlaylist(String playListName) {
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
-                ("i[data-testid='sidebar-create-playlist-btn']")))
+                        ("i[data-testid='sidebar-create-playlist-btn']")))
                 .click();
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
-                ("li[data-testid='playlist-context-menu-create-simple']")))
+                        ("li[data-testid='playlist-context-menu-create-simple']")))
                 .click();
         WebElement inputNewPlayListName = wait.until(ExpectedConditions.elementToBeClickable
                 (By.cssSelector(".create input[name='name']")));
@@ -124,7 +131,7 @@ public class BaseTest {
         wait.until(ExpectedConditions
                 .invisibilityOfElementLocated(By.xpath("//div[@class='success show']")));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
-                "//a[contains(text(), '" +  playListName + "')]"))).click();
+                "//a[contains(text(), '" + playListName + "')]"))).click();
         wait.until(ExpectedConditions.elementToBeClickable
                 (By.xpath("//button[@class='del btn-delete-playlist']"))).click();
     }
