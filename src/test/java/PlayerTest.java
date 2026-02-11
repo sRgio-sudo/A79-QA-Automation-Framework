@@ -6,7 +6,18 @@ import org.testng.annotations.Test;
 
 public class PlayerTest extends BaseTest {
     @Test
-    public void playSong() {
+    public void playAnySong() {
+        navigatingToPage();
+        provideEmail(validEmail);
+        providePassword(validPassword);
+        clickSubmit();
+        selectNextSong();
+        clickPlayButton();
+        Assert.assertTrue(songPlayingCheck());
+    }
+
+    @Test
+    public void playSongFromAllSongList() {
         provideEmail(validEmail);
         providePassword(validPassword);
         clickSubmit();
@@ -25,6 +36,5 @@ public class PlayerTest extends BaseTest {
         WebElement firstSongElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath
                 ("//section[@id='songsWrapper']//table[@class='items']//tr[1]")));
         actions.contextClick(firstSongElement).perform();
-
     }
 }

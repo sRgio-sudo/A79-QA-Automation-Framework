@@ -12,6 +12,11 @@
                     <exclude name="loginWithIncorrectData"/>
                 </methods>
             </class>
+            <class name="PlayerTest">
+                <methods>
+                    <include name="playAnySong"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
