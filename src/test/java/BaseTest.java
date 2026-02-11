@@ -17,6 +17,7 @@ import java.util.UUID;
 public class BaseTest {
     public WebDriver driver;
     public WebDriverWait wait;
+    protected Actions actions;
     public String url = "https://qa.koel.app/";
     protected static String validEmail = "sergei.trofimov@testpro.io";
     protected static String validPassword = "uIIgWoYu";
@@ -44,6 +45,7 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         url = BaseURL;
         navigatingToPage();
     }
@@ -142,5 +144,21 @@ public class BaseTest {
         WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='success show']")));
         Assert.assertTrue(noticeMessage.isDisplayed());
+    }
+
+    protected void chooseAllSongList() {
+        wait.until(ExpectedConditions.elementToBeClickable
+                (By.cssSelector("a[href='#!/songs']"))).click();
+    }
+
+    protected void chooseHome() {
+        wait.until(ExpectedConditions.elementToBeClickable
+                (By.cssSelector("a[href='#!/home']"))).click();
+    }
+
+    protected boolean songPlayingCheck() {
+        WebElement soundBarImage = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.cssSelector("div[data-testid='sound-bar-play']")));
+        return soundBarImage.isDisplayed();
     }
 }
