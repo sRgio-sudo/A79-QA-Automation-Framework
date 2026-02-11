@@ -28,7 +28,7 @@ public class Homework17 extends BaseTest {
 
     }
     @AfterMethod
-    public void cleanUp() throws InterruptedException {
+    public void cleanUp() {
         deleteAddedSong();
     }
 

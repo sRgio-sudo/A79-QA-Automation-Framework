@@ -1,30 +1,32 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ProfilePageTest extends BaseTest {
     @Test
-    public void updateProfileName() throws InterruptedException {
+    public void updateProfileName() {
         navigatingToPage();
         provideEmail(validEmail);
         providePassword(validPassword);
         clickSubmit();
-        Thread.sleep(3000);
+
         clickOnAvatarIcon();
         currentPass(validPassword);
         String newName = generateRandomName();
         provideNewProfileName(newName);
-        Thread.sleep(5000);
         clickSaveButton();
-        Thread.sleep(3000);
+        checkSuccess();
+
         WebElement actualProfileName = driver.findElement(By.xpath("//span[@class='name']"));
         Assert.assertEquals(actualProfileName.getText(), newName);
     }
 
     private void clickSaveButton() {
-        WebElement saveButtonClick = driver.findElement(By.xpath("//button[@class='btn-submit']"));
-        saveButtonClick.click();
+        wait.until(ExpectedConditions.elementToBeClickable
+                (By.xpath("//button[@class='btn-submit']"))).click();
+
     }
 
     private void provideNewProfileName(String newName) {

@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.time.Duration;
@@ -72,7 +73,7 @@ public class BaseTest {
     }
 
     protected void clickOnAvatarIcon() {
-//        WebElement avatarIcon = driver.findElement(By.xpath("//a[@data-testid='view-profile-link']"));
+
         WebElement avatarIcon = wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//a[@data-testid='view-profile-link']")));
         avatarIcon.click();
@@ -136,9 +137,10 @@ public class BaseTest {
                 (By.xpath("//button[@class='del btn-delete-playlist']"))).click();
     }
 
-//    protected void checkSuccess() {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show']")));
-//        Assert.assertTrue(noticeMessage.isDisplayed());
-//        wait.until(ExpectedConditions.invisibilityOf(noticeMessage));
+    protected void checkSuccess() {
+
+        WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@class='success show']")));
+        Assert.assertTrue(noticeMessage.isDisplayed());
+    }
 }

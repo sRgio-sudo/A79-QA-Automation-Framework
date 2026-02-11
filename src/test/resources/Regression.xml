@@ -6,7 +6,8 @@
     <test name="Regression Test" preserve-order="false">
         <classes>
 <!--            <class name="Homework20"/>-->
-            <class name="Homework17"/>
+<!--            <class name="Homework17"/>-->
+            <class name="ProfilePageTest" />
         </classes>
     </test>
 </suite>
