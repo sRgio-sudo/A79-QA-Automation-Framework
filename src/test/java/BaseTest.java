@@ -123,21 +123,21 @@ public class BaseTest {
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
                         ("li[data-testid='playlist-context-menu-create-simple']")))
                 .click();
+
         WebElement inputNewPlayListName = wait.until(ExpectedConditions.elementToBeClickable
                 (By.cssSelector(".create input[name='name']")));
-        inputNewPlayListName.clear();
+        inputNewPlayListName.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
         inputNewPlayListName.sendKeys(playListName);
         inputNewPlayListName.sendKeys(Keys.ENTER);
     }
 
     protected void deletePlaylist(String playListName) {
         waitInvisibilityOfSuccess();
-//        wait.until(ExpectedConditions
-//                .invisibilityOfElementLocated(By.xpath("//div[@class='success show']")));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
-                "//a[contains(text(), '" + playListName + "')]"))).click();
-        wait.until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//button[@class='del btn-delete-playlist']"))).click();
+        WebElement playListContext = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
+                "//a[contains(text(), '" + playListName + "')]")));
+        actions.contextClick(playListContext).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//li[contains(text(), 'Delete')]"))).click();
     }
 
     protected WebElement checkSuccess() {
@@ -163,8 +163,15 @@ public class BaseTest {
         try {
             WebElement clickToClose = driver.findElement(By.xpath("//div[@class='success show']"));
             clickToClose.click();
-        }catch (Exception e) {}
+        } catch (Exception e) {
+        }
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("//div[@class='success show']")));
+    }
+
+    protected void doubleClickOnPlaylist(String playListName) {
+        WebElement playListRenamer = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[contains(text(),'" + playListName + "')]")));
+        actions.doubleClick(playListRenamer).perform();
     }
 }

@@ -28,7 +28,7 @@ public class Homework20 extends BaseTest {
     }
 
     @Test
-    public void renamePlaylist() { //needs to speed-up
+    public void renamePlaylist() { //needs to speed-up (22sec)
         String playListName = generateRandomName();
         String updatedPlayListName = "playListToRename";
 
@@ -51,12 +51,6 @@ public class Homework20 extends BaseTest {
         playListInputField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
         playListInputField.sendKeys(newPlayListName);
         playListInputField.sendKeys(Keys.ENTER);
-    }
-
-    private void doubleClickOnPlaylist(String playListName) {
-        WebElement playListRenamer = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(text(),'" + playListName + "')]")));
-        actions.doubleClick(playListRenamer).perform();
     }
 
     @Test
