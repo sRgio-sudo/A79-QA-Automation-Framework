@@ -18,6 +18,7 @@ public class PlayerTest extends BaseTest {
 
     @Test
     public void playSongFromAllSongList() {
+        navigatingToPage();
         provideEmail(validEmail);
         providePassword(validPassword);
         clickSubmit();
@@ -25,6 +26,21 @@ public class PlayerTest extends BaseTest {
         contextClickFirstSong();
         clickPlaySong();
         Assert.assertTrue(songPlayingCheck());
+    }
+
+    @Test
+    public void hoverCheck() {
+        navigatingToPage();
+        provideEmail(validEmail);
+        providePassword(validPassword);
+        clickSubmit();
+        Assert.assertTrue(hoverPlayButton().isDisplayed());
+    }
+
+    public WebElement hoverPlayButton() {
+        WebElement playButton = driver.findElement(By.cssSelector("span[data-testid='play-btn']"));
+        actions.moveToElement(playButton).perform();
+        return wait.until(ExpectedConditions.visibilityOf(playButton));
     }
 
     private void clickPlaySong() {

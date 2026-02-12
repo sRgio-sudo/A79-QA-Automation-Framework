@@ -139,11 +139,12 @@ public class BaseTest {
                 (By.xpath("//button[@class='del btn-delete-playlist']"))).click();
     }
 
-    protected void checkSuccess() {
+    protected WebElement checkSuccess() {
 
         WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='success show']")));
         Assert.assertTrue(noticeMessage.isDisplayed());
+        return noticeMessage;
     }
 
     protected void chooseAllSongList() {
@@ -160,5 +161,14 @@ public class BaseTest {
         WebElement soundBarImage = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.cssSelector("div[data-testid='sound-bar-play']")));
         return soundBarImage.isDisplayed();
+    }
+
+    protected void waitInvisibilityOfSuccess() {
+        try {
+            WebElement clickToClose = driver.findElement(By.xpath("//div[@class='success show']"));
+            clickToClose.click();
+        }catch (Exception e) {}
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='success show']")));
     }
 }
