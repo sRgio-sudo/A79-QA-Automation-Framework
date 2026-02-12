@@ -5,9 +5,9 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="false">
         <classes>
-<!--            <class name="Homework20"/>-->
-<!--            <class name="Homework17"/>-->
-            <class name="ProfilePageTest" />
+            <class name="Homework20"/>
+            <class name="Homework18"/>
+<!--            <class name="ProfilePageTest" />-->
         </classes>
     </test>
 </suite>

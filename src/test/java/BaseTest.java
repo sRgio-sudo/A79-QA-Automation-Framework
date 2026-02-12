@@ -17,6 +17,7 @@ import java.util.UUID;
 public class BaseTest {
     public WebDriver driver;
     public WebDriverWait wait;
+    protected Actions actions;
     public String url = "https://qa.koel.app/";
     protected static String validEmail = "sergei.trofimov@testpro.io";
     protected static String validPassword = "uIIgWoYu";
@@ -44,6 +45,7 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         url = BaseURL;
         navigatingToPage();
     }
@@ -129,18 +131,40 @@ public class BaseTest {
     }
 
     protected void deletePlaylist(String playListName) {
-        wait.until(ExpectedConditions
-                .invisibilityOfElementLocated(By.xpath("//div[@class='success show']")));
+        waitInvisibilityOfSuccess();
+//        wait.until(ExpectedConditions
+//                .invisibilityOfElementLocated(By.xpath("//div[@class='success show']")));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
                 "//a[contains(text(), '" + playListName + "')]"))).click();
         wait.until(ExpectedConditions.elementToBeClickable
                 (By.xpath("//button[@class='del btn-delete-playlist']"))).click();
     }
 
-    protected void checkSuccess() {
+    protected WebElement checkSuccess() {
 
         WebElement noticeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[@class='success show']")));
         Assert.assertTrue(noticeMessage.isDisplayed());
+        return noticeMessage;
+    }
+
+    protected void chooseAllSongList() {
+        wait.until(ExpectedConditions.elementToBeClickable
+                (By.cssSelector("a[href='#!/songs']"))).click();
+    }
+
+    protected boolean songPlayingCheck() {
+        WebElement soundBarImage = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.cssSelector("div[data-testid='sound-bar-play']")));
+        return soundBarImage.isDisplayed();
+    }
+
+    protected void waitInvisibilityOfSuccess() {
+        try {
+            WebElement clickToClose = driver.findElement(By.xpath("//div[@class='success show']"));
+            clickToClose.click();
+        }catch (Exception e) {}
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='success show']")));
     }
 }
