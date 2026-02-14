@@ -8,8 +8,8 @@
         <classes>
             <class name="LoginTests">
                 <methods>
-                    <include name="loginValidData"/>
-                    <exclude name="loginWithIncorrectData"/>
+<!--                    <include name="loginValidData"/>-->
+<!--                    <exclude name="loginWithIncorrectData"/>-->
                 </methods>
             </class>
         </classes>

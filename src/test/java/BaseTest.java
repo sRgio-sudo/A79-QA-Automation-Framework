@@ -57,7 +57,8 @@ public class BaseTest {
     }
 
     protected void clickSubmit() {
-        WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[type='submit']")));
+        WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector("button[type='submit']")));
         submitButton.click();
     }
 
