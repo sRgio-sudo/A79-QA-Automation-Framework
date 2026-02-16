@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 public class ProfilePageTest extends BaseTest {
     @Test
     public void updateProfileName() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
 
         clickOnAvatarIcon();
         currentPass(validPassword);

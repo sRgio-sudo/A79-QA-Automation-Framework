@@ -12,10 +12,10 @@ public class Homework20 extends BaseTest {
     @Test
     public void checkPlaylist() {
         String playListName = "PlayListToDelete";
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         createPlaylist(playListName);
         deletePlaylist(playListName);
 
@@ -31,11 +31,11 @@ public class Homework20 extends BaseTest {
     public void renamePlaylist() { //needs to speed-up (22sec)
         String playListName = generateRandomName();
         String updatedPlayListName = "playListToRename";
-
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         createPlaylist(playListName);
         waitInvisibilityOfSuccess();
         doubleClickOnPlaylist(playListName);
@@ -55,10 +55,10 @@ public class Homework20 extends BaseTest {
 
     @Test
     public void countSongInPlaylist() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         choosePlayListByName("Playlist1");
         displayAllSongs();
         Assert.assertTrue(getPlayListDetails().contains(String.valueOf(countSongs())));

@@ -8,10 +8,10 @@ import org.testng.annotations.Test;
 public class Homework17 extends BaseTest {
     @Test
     public void addSongToPlaylist() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         songSearch("Samurai");
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
                 ("button[data-test='view-all-songs-btn']"))).click();

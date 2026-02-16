@@ -7,7 +7,7 @@ public class Homework16 extends BaseTest {
     @Test
     public void registrationNavigation() {
 
-        navigatingToPage();
+//        navigatingToPage();
 
         WebElement registrationLink = driver.findElement(By.cssSelector("a[href='registration']"));
         registrationLink.click();

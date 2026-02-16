@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 public class Homework18 extends BaseTest {
     @Test
     public void playAnySong() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         selectNextSong();
         clickPlayButton();
         Assert.assertTrue(songPlayingCheck());
@@ -18,10 +18,10 @@ public class Homework18 extends BaseTest {
 
     @Test
     public void playSongFromAllSongList() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         chooseAllSongList();
         contextClickFirstSong();
         clickPlaySong();
@@ -30,10 +30,10 @@ public class Homework18 extends BaseTest {
 
     @Test
     public void hoverCheck() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
+//        navigatingToPage();
+//        provideEmail(validEmail);
+//        providePassword(validPassword);
+//        clickSubmit();
         Assert.assertTrue(hoverPlayButton().isDisplayed());
     }
 
