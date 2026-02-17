@@ -1,16 +1,25 @@
 import org.testng.annotations.DataProvider;
+import utils.ConfigReader;
 
 public class TestDataProviders extends BaseTest {
-    @DataProvider(name = "IncorrectLoginData")
-    public static Object[][] getDataFromDataProviders() {
+    private static final String validEmail = ConfigReader.getProperty("user.email");
+    private static final String validPassword = ConfigReader.getProperty("user.password");
+
+    @DataProvider(name = "InvalidEmailData")
+    public static Object[][] getInvalidEmailData() {
         return new Object[][]{
-                {"invalid@testpro.io", "invalidPassword"},
-                {validEmail, "invalidPassword"},
                 {"invalidEmail", validPassword},
+                {"invalid@email.io", validPassword},
                 {"", validPassword},
-                {validEmail, ""},
-                {validEmail, "uIIgWoYu "},
-                {validEmail, "UIIgWoYu"},
         };
     }
-}
+        @DataProvider(name = "InvalidPasswordData")
+        public static Object[][] getInvalidPasswordData() {
+            return new Object[][]{
+                    {validEmail, "invalidPassword"},
+                    {validEmail, ""},
+                    {validEmail, "uIIgWoYu "},
+                    {validEmail, "UIIgWoYu"},
+            };
+        }
+    }

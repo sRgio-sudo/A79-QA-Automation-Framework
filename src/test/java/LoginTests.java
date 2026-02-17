@@ -1,24 +1,39 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
+import utils.ConfigReader;
 
 public class LoginTests extends BaseTest {
-@Test (dataProvider = "IncorrectLoginData", dataProviderClass = TestDataProviders.class)
-public void loginWithIncorrectData(String email, String password) {
-    navigatingToPage();
-    provideEmail(email);
-    providePassword(password);
-    clickSubmit();
-    Assert.assertEquals(driver.getCurrentUrl(), url);
-}
-    @Test
+    @Test //Log-in positive test
     public void loginValidData() {
-        navigatingToPage();
-        provideEmail(validEmail);
-        providePassword(validPassword);
-        clickSubmit();
-        WebElement avatarIcon = driver.findElement(By.xpath("//img[@class='avatar']"));
-        Assert.assertTrue(avatarIcon.isDisplayed());
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = loginPage
+                .openPage()
+                .login(ConfigReader.getProperty("user.email"),
+                        ConfigReader.getProperty("user.password"));
+
+        Assert.assertTrue(homePage.isAvatarDisplayed());
     }
+
+    @Test(dataProvider = "InvalidEmailData", dataProviderClass = TestDataProviders.class)
+    public void loginWithIncorrectEmail(String email, String password) {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.openPage()
+                .provideEmail(email)
+                .providePassword(password)
+                .clickSubmitButton();
+        Assert.assertTrue(loginPage.isLoginPageDisplayed());
+    }
+
+    @Test(dataProvider = "InvalidPasswordData", dataProviderClass = TestDataProviders.class)
+    public void loginWithIncorrectPassword(String email, String password) {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.openPage()
+                .provideEmail(email)
+                .providePassword(password)
+                .clickSubmitButton();
+        Assert.assertTrue(loginPage.isLoginPageDisplayed());
+    }
+
 }
