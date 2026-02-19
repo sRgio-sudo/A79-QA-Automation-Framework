@@ -8,8 +8,8 @@ public class ConfigReader {
 
     static {
         try {
-            InputStream input = ConfigReader
-                    .class.getClassLoader()
+            InputStream input = ConfigReader.class
+                    .getClassLoader()
                     .getResourceAsStream("config.properties");
             if (input == null) {
                 throw new RuntimeException("config.properties file not found");
@@ -19,6 +19,7 @@ public class ConfigReader {
             throw new RuntimeException("Failed to load config.properties");
         }
     }
+
     public static String getProperty(String key) {
         return prop.getProperty(key);
     }

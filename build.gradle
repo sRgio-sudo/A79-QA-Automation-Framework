@@ -11,15 +11,21 @@ repositories {
 
 dependencies {
     testImplementation 'org.testng:testng:7.6.1'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.5.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
     testImplementation 'io.github.bonigarcia:webdrivermanager:6.0.1'
 }
 
 test {
     useTestNG() {
-//        suites System.getProperty('suiteXmlFile','src/test/resources/Regression.xml')
+        def suiteFile = System.getProperty('suiteXmlFile')
+        if (suiteFile != null && !suiteFile.isEmpty()) {
+            suites suiteFile
+        }
     }
+    systemProperty "browser", System.getProperty ("browser")
+//        suites System.getProperty('suiteXmlFile','src/test/resources/Regression.xml')
 }
+
 
 
 //tasks.register('Smoke', Test) {
