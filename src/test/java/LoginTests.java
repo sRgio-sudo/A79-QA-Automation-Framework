@@ -36,4 +36,12 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(loginPage.isLoginPageDisplayed());
     }
 
+    @Test
+    public void registrationLinkCheck() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.openPage()
+                .clickRegistrationButton();
+        Assert.assertEquals(loginPage.getPageUrl(), "https://qa.koel.app/registration");
+    }
+
 }

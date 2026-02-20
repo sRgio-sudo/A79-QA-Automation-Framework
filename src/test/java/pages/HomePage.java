@@ -2,7 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HomePage extends BasePage {
@@ -46,17 +45,34 @@ public class HomePage extends BasePage {
 
         return this;
     }
-
-    private void waitInvisibilityOfSuccess() {
-
-        try {
-            WebElement clickToClose = driver.findElement(By.xpath("//div[@class='success show']"));
-            clickToClose.click();
-        } catch (Exception e) {
-        }
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(
-                By.xpath("//div[@class='success show']")));
-    }
+//    public void deleteAddedSong() {
+//        wait.until(ExpectedConditions.elementToBeClickable
+//                        (By.xpath("//section[@id='playlists']//a[contains(text(), 'Playlist2')]")))
+//                .click();
+//        WebElement addedSong = wait.until
+//                (ExpectedConditions.elementToBeClickable(
+//                        By.xpath("//section[@id='playlistWrapper']" +
+//                                "//table[@class='items']//td[contains(text(), 'HoliznaCC0 - Way Of The Samurai')]")));
+//        addedSong.click();
+//        Actions action = new Actions(driver);
+//        action.sendKeys(Keys.DELETE).perform();
+//        wait.until(ExpectedConditions.invisibilityOfElementLocated
+//                (By.xpath("//div[@class='success show']")));
+//    }
+//protected void createPlaylist(String playListName) {
+//    wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
+//                    ("i[data-testid='sidebar-create-playlist-btn']")))
+//            .click();
+//    wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
+//                    ("li[data-testid='playlist-context-menu-create-simple']")))
+//            .click();
+//
+//    WebElement inputNewPlayListName = wait.until(ExpectedConditions.elementToBeClickable
+//            (By.cssSelector(".create input[name='name']")));
+//    inputNewPlayListName.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
+//    inputNewPlayListName.sendKeys(playListName);
+//    inputNewPlayListName.sendKeys(Keys.ENTER);
+//}
 
     public boolean isPlayListDisplayed(String name) {
         By playlist = By.xpath("//a[contains(text(),'" + name + "')]");
@@ -65,4 +81,31 @@ public class HomePage extends BasePage {
     public PlayerComponent getPlayer(){
         return new PlayerComponent(driver);
     }
+
+//    protected void deletePlaylist(String playListName) {
+//        waitInvisibilityOfSuccess();
+//        WebElement playListContext = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
+//                "//a[contains(text(), '" + playListName + "')]")));
+//        actions.contextClick(playListContext).perform();
+//        wait.until(ExpectedConditions.elementToBeClickable(
+//                By.xpath("//li[contains(text(), 'Delete')]"))).click();
+//    }
+//
+//    protected void chooseAllSongList() {
+//        wait.until(ExpectedConditions.elementToBeClickable
+//                (By.cssSelector("a[href='#!/songs']"))).click();
+//    }
+//
+//    protected void doubleClickOnPlaylist(String playListName) {
+//        WebElement playListRenamer = wait.until(ExpectedConditions.visibilityOfElementLocated(
+//                By.xpath("//a[contains(text(),'" + playListName + "')]")));
+//        actions.doubleClick(playListRenamer).perform();
+//    }
+//protected void clickOnAvatarIcon() {
+//
+//    WebElement avatarIcon = wait.until(ExpectedConditions
+//            .visibilityOfElementLocated(By.xpath("//a[@data-testid='view-profile-link']")));
+//    avatarIcon.click();
+//
+//}
 }

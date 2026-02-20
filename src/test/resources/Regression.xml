@@ -5,10 +5,18 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="false">
         <classes>
-<!--            <class name="LoginTests"/>-->
-<!--            <class name="Homework21"/>-->
-            <class name="PlayerTests"/>
-<!--            <class name="ProfilePageTest" />-->
+            <class name="LoginTests">
+                <methods>
+                    <include name="registrationLinkCheck"/>
+                </methods>
+            </class>
+            <!-- <class name="PlayListTests"/>-->
+            <class name="PlayerTests">
+                <methods>
+                    <include name="playAnySong"/>
+                </methods>
+            </class>
+            <!--            <class name="ProfilePageTest" />-->
         </classes>
     </test>
 </suite>

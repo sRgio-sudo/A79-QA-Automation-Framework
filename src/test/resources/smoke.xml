@@ -8,7 +8,7 @@
         <classes>
             <class name="LoginTests">
                 <methods>
-<!--                    <include name="loginValidData"/>-->
+                    <include name="loginValidData"/>
 <!--                    <exclude name="loginWithIncorrectData"/>-->
                 </methods>
             </class>
