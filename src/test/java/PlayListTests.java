@@ -10,7 +10,7 @@ public class PlayListTests extends BaseTest {
 
         String playListName = BasePage.generateRandomName();
         String updatedPlayListName = "playListRenamed";
-        HomePage homePage = new LoginPage(driver)
+        HomePage homePage = new LoginPage(getDriver())
                 .openPage()
                 .loginAsValidUser();
         homePage

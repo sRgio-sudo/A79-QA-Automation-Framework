@@ -9,7 +9,7 @@ public class ProfilePageTest extends BaseTest {
     @Test
     public void updateProfileName() {
         String newName = BasePage.generateRandomName();
-        ProfilePage profilePage = new LoginPage(driver)
+        ProfilePage profilePage = new LoginPage(getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .getProfile()
@@ -18,5 +18,17 @@ public class ProfilePageTest extends BaseTest {
                 .clickSaveButton();
         String actualName = profilePage.getProfileName();
         Assert.assertEquals(actualName, newName);
+    }
+    @Test
+    public void changeCurrentTheme() {
+        ProfilePage profilePage = new LoginPage(getDriver())
+                .openPage()
+                .loginAsValidUser()
+                .getProfile()
+                .currentPass(ConfigReader.getProperty("user.password"))
+                .selectClassisTheme();
+                Assert.assertTrue(profilePage.isClassicThemeSelected());
+
+                profilePage.selectCatTheme(); //return theme
     }
 }

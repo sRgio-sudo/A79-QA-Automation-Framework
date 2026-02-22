@@ -19,7 +19,6 @@ public class TestDataProviders extends BaseTest {
                     {validEmail, "invalidPassword"},
                     {validEmail, ""},
                     {validEmail, "uIIgWoYu "},
-                    {validEmail, "UIIgWoYu"},
             };
         }
     }

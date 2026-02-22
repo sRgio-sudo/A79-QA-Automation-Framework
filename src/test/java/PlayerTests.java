@@ -6,7 +6,7 @@ import pages.PlayerComponent;
 public class PlayerTests extends BaseTest {
     @Test
     public void playAnySong() {
-        PlayerComponent playerComponent = new LoginPage(driver)
+        PlayerComponent playerComponent = new LoginPage(getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .getPlayer();
@@ -18,7 +18,7 @@ public class PlayerTests extends BaseTest {
     }
     @Test
     public void hoverCheck() {
-        PlayerComponent playerComponent = new LoginPage(driver)
+        PlayerComponent playerComponent = new LoginPage(getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .getPlayer();

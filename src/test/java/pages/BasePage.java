@@ -23,7 +23,7 @@ public class BasePage {
     }
 
     public void click(By locator) {
-        findElement(locator).click();
+        wait.until(ExpectedConditions.elementToBeClickable(findElement(locator))).click();
     }
 
     public void doubleClick(By locator) {
