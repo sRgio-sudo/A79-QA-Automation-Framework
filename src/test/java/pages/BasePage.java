@@ -30,6 +30,10 @@ public class BasePage {
         actions.doubleClick(findElement(locator)).perform();
     }
 
+    public void contextClick(By locator) {
+        actions.contextClick(findElement(locator)).perform();
+    }
+
     protected WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }

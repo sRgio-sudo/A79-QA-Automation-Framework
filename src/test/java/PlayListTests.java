@@ -1,10 +1,24 @@
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import pages.BasePage;
 import pages.HomePage;
 import pages.LoginPage;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import pages.PlayerComponent;
 
 public class PlayListTests extends BaseTest {
+    @Test
+    public void playSongFromAllSongList() {
+        PlayerComponent player = new PlayerComponent(getDriver());
+        HomePage homePage = new LoginPage(getDriver())
+                .openPage()
+                .loginAsValidUser()
+                .selectAllSongList()
+                .contextClickFirstSong()
+                .contextClickPlaySong();
+
+        Assert.assertTrue(player.soundbarCheck());
+    }
+
     @Test
     public void renamePlaylist() {
 
@@ -21,29 +35,8 @@ public class PlayListTests extends BaseTest {
 
         homePage.deletePlaylist(updatedPlayListName);
     }
-    //    @Test
-//    public void playSongFromAllSongList() {
 
-    /// /        navigatingToPage();
-    /// /        provideEmail(validEmail);
-    /// /        providePassword(validPassword);
-    /// /        clickSubmit();
-//        chooseAllSongList();
-//        contextClickFirstSong();
-//        clickPlaySong();
-//        Assert.assertTrue(songPlayingCheck());
-//    }
-    //
-//    private void clickPlaySong() { //select song and context click on it
-//        wait.until(ExpectedConditions.elementToBeClickable(
-//                By.xpath("//li[@class='playback']"))).click();
-//    }
-//
-//    private void contextClickFirstSong() {
-//        WebElement firstSongElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath
-//                ("//section[@id='songsWrapper']//table[@class='items']//tr[1]")));
-//        actions.contextClick(firstSongElement).perform();
-//    }
+
     //    @Test
 //    public void addSongToPlaylist() {
 ////        navigatingToPage();

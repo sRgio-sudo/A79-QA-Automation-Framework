@@ -11,7 +11,9 @@ public class HomePage extends BasePage {
     private By playListNameInputFiled = By.cssSelector(".create input[name='name']");
     private By renamePlayListInputFiled = By.cssSelector("[data-testid='inline-playlist-name-input']");
     private By succesShow = By.xpath("//div[@class='success show']");
-    private By AvatarIcon;
+    private By allSongLink = By.cssSelector("a[href='#!/songs']");
+    private By firstSongElement = By.xpath("//section[@id='songsWrapper']//table[@class='items']//tr[1]");
+    private By contextPlaySong = By.xpath("//li[@class='playback']");
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -46,6 +48,26 @@ public class HomePage extends BasePage {
 
         return this;
     }
+
+    public HomePage selectAllSongList() {
+        wait.until(ExpectedConditions
+                        .elementToBeClickable(allSongLink))
+                .click();
+        return this;
+    }
+
+    public HomePage contextClickFirstSong() {
+        contextClick(firstSongElement);
+        return this;
+    }
+
+    public HomePage contextClickPlaySong() { //select song and context click on it
+        wait.until(ExpectedConditions
+                        .elementToBeClickable(contextPlaySong))
+                .click();
+        return this;
+    }
+
 //    public void deleteAddedSong() {
 //        wait.until(ExpectedConditions.elementToBeClickable
 //                        (By.xpath("//section[@id='playlists']//a[contains(text(), 'Playlist2')]")))
@@ -89,6 +111,7 @@ public class HomePage extends BasePage {
         return new ProfilePage(driver);
     }
 
+
 //    protected void deletePlaylist(String playListName) {
 //        waitInvisibilityOfSuccess();
 //        WebElement playListContext = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']" +
@@ -98,10 +121,6 @@ public class HomePage extends BasePage {
 //                By.xpath("//li[contains(text(), 'Delete')]"))).click();
 //    }
 //
-//    protected void chooseAllSongList() {
-//        wait.until(ExpectedConditions.elementToBeClickable
-//                (By.cssSelector("a[href='#!/songs']"))).click();
-//    }
 //
 //    protected void doubleClickOnPlaylist(String playListName) {
 //        WebElement playListRenamer = wait.until(ExpectedConditions.visibilityOfElementLocated(
