@@ -17,26 +17,8 @@ dependencies {
 
 test {
     useTestNG() {
-        def suiteName = System.getProperty('suite','Regression')
-//        if (suiteFile != null && !suiteFile.isEmpty()) {
-            suites "src/test/resources/${suiteName}.xml"
-        }
-        systemProperty "browser", System.getProperty("browser", "chrome")
+        def suiteName = System.getProperty('suite', 'Regression')
+        suites "src/test/resources/${suiteName}.xml"
     }
-//        suites "src/test/resources/TestNG.xml"
-//        systemProperty "browser", System.getProperty("browser")
-//        suites System.getProperty('suiteXmlFile','src/test/resources/Regression.xml')
+    systemProperty "browser", System.getProperty("browser", "chrome")
 }
-
-
-//tasks.register('Smoke', Test) {
-//    useTestNG() {
-//        suites "src/test/resources/Smoke.xml"
-//    }
-//}
-//
-//tasks.register('Regression', Test) {
-//    useTestNG() {
-//        suites "src/test/resources/Regression.xml"
-//    }
-//}
