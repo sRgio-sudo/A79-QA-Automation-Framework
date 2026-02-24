@@ -9,7 +9,17 @@
             <class name="LoginTests">
                 <methods>
                     <include name="loginValidData"/>
-<!--                    <exclude name="loginWithIncorrectData"/>-->
+                    <include name="registrationLinkCheck"/>
+                </methods>
+            </class>
+            <class name="ProfilePageTest">
+                <methods>
+                    <include name="updateProfileName"/>
+                </methods>
+            </class>
+            <class name="PlayerTests">
+                <methods>
+                    <include name="playAnySong"/>
                 </methods>
             </class>
         </classes>

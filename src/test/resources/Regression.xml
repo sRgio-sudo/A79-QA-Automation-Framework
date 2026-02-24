@@ -5,18 +5,27 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="false">
         <classes>
-            <class name="ProfilePageTest">
+            <class name="LoginTests">
                 <methods>
-                    <include name="updateProfileName"/>
+                    <include name="InvalidEmailData"/>
+                    <include name="InvalidPasswordData"/>
                 </methods>
             </class>
-            <!-- <class name="PlayListTests"/>-->
-<!--            <class name="PlayerTests">-->
-<!--                <methods>-->
-<!--                    <include name="playAnySong"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-            <!--            <class name="ProfilePageTest" />-->
+            <class name="PlayerTests">
+                <methods>
+                    <include name="hoverCheck"/>
+                </methods>
+            </class>
+            <class name="PlayListTests">
+                <methods>
+                    <exclude name="renamePlaylist"/>
+                </methods>
+            </class>
+            <class name="ProfilePageTest">
+                <methods>
+                    <include name="changeCurrentTheme"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

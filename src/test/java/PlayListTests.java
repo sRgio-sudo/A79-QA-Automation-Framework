@@ -37,38 +37,27 @@ public class PlayListTests extends BaseTest {
     }
 
 
-    //    @Test
-//    public void addSongToPlaylist() {
-////        navigatingToPage();
-////        provideEmail(validEmail);
-////        providePassword(validPassword);
-////        clickSubmit();
-//        songSearch("Samurai");
-//        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
-//                ("button[data-test='view-all-songs-btn']"))).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath
-//                ("//section[@id='songResultsWrapper']//table[@class='items']//tr[1]"))).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
-//                ("button[data-test='add-to-btn']"))).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(
-//                By.xpath("//section[@id='songResultsWrapper']" +
-//                "//div[@data-test='add-to-menu']//li[contains(text(), 'Playlist2')]"))).click();
-//        WebElement succesIcon = driver.findElement(By.xpath("//div[@class='success show']"));
-//        String succesMessage = succesIcon.getText();
-//        Assert.assertEquals(succesMessage, "Added 1 song into \"Playlist2.\"");
-//
-//    }
-//    @AfterMethod
-//    public void cleanUp() {
-//        deleteAddedSong();
-//    }
-//
-//    private void songSearch(String songName) {
-//        WebElement searchField = driver.findElement(By.xpath("//input[@name='q']"));
-//        searchField.click();
-//        searchField.clear();
-//        searchField.sendKeys(songName);
-//    }
+    @Test
+    public void addSongToPlaylist() {
+        String songToAdd = "Samurai";
+        String playList = "Playlist2";
+        HomePage homePage = new LoginPage(getDriver())
+                .openPage()
+                .loginAsValidUser()
+                .songSearch(songToAdd)
+                .clickViewAllButton()
+                .selectFirstSongFromSearch()
+                .clickAddToButton()
+                .selectPlaylist(playList);
+        String getSuccessMessage = homePage
+                .successMessage()
+                .getText();
+        Assert.assertTrue(getSuccessMessage.contains("Added"));
+        Assert.assertTrue(getSuccessMessage.contains(playList));
+        homePage.deleteAddedSong(playList,songToAdd)
+                .successMessage();
+    }
+
     //    @Test
 //    public void checkPlaylist() {
 //        String playListName = "PlayListToDelete";

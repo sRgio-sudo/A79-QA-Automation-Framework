@@ -34,6 +34,12 @@ public class BasePage {
         actions.contextClick(findElement(locator)).perform();
     }
 
+    public void delete(By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(findElement(locator)))
+                .click();
+        actions.sendKeys(Keys.DELETE).perform();
+    }
+
     protected WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
@@ -69,12 +75,11 @@ public class BasePage {
                 By.xpath("//div[@class='success show']")));
     }
 
-//    protected WebElement checkSuccessMessage() { //doesn`t work yet
-//        WebElement successMessage = wait.until(ExpectedConditions
-//                .visibilityOfElementLocated(By
-//                        .xpath("//div[@class='success show']")));
-//        return successMessage;
-//    }
-
+    public WebElement successMessage() {
+        WebElement successMessage = wait.until(ExpectedConditions
+                .visibilityOfElementLocated(By
+                        .xpath("//div[@class='success show']")));
+        return successMessage;
+    }
 }
 

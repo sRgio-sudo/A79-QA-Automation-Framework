@@ -13,7 +13,12 @@ public class HomePage extends BasePage {
     private By succesShow = By.xpath("//div[@class='success show']");
     private By allSongLink = By.cssSelector("a[href='#!/songs']");
     private By firstSongElement = By.xpath("//section[@id='songsWrapper']//table[@class='items']//tr[1]");
+    private By firstSongFromSearch = By.xpath("//section[@id='songResultsWrapper']//table[@class='items']//tr[1]");
     private By contextPlaySong = By.xpath("//li[@class='playback']");
+    private By searchField = By.xpath("//input[@name='q']");
+    private By viewAllButton = By.cssSelector("button[data-test='view-all-songs-btn']");
+    private By addToButton = By.cssSelector("button[data-test='add-to-btn']");
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -68,20 +73,45 @@ public class HomePage extends BasePage {
         return this;
     }
 
-//    public void deleteAddedSong() {
-//        wait.until(ExpectedConditions.elementToBeClickable
-//                        (By.xpath("//section[@id='playlists']//a[contains(text(), 'Playlist2')]")))
-//                .click();
-//        WebElement addedSong = wait.until
-//                (ExpectedConditions.elementToBeClickable(
-//                        By.xpath("//section[@id='playlistWrapper']" +
-//                                "//table[@class='items']//td[contains(text(), 'HoliznaCC0 - Way Of The Samurai')]")));
-//        addedSong.click();
-//        Actions action = new Actions(driver);
-//        action.sendKeys(Keys.DELETE).perform();
-//        wait.until(ExpectedConditions.invisibilityOfElementLocated
-//                (By.xpath("//div[@class='success show']")));
-//    }
+    public HomePage songSearch(String songName) {
+        wait.until(ExpectedConditions
+                .visibilityOfElementLocated(searchField));
+        clearAndType(searchField, songName);
+        return this;
+    }
+
+    public HomePage clickViewAllButton() {
+        click(viewAllButton);
+        return this;
+    }
+
+    public HomePage clickFirstSong() {
+        click(firstSongElement);
+        return this;
+    }
+
+    public HomePage selectFirstSongFromSearch() {
+        click(firstSongFromSearch);
+        return this;
+    }
+
+    public HomePage clickAddToButton() {
+        click(addToButton);
+        return this;
+    }
+
+    public HomePage selectPlaylist(String playListName) {
+        click(By.xpath("//section[@id='songResultsWrapper']" +
+                "//div[@data-test='add-to-menu']//li[contains(text(), '"+playListName+"')]"));
+        return this;
+    }
+
+    public HomePage deleteAddedSong(String playListName, String songName) { //after method to clean playlist
+        click(By.xpath("//section[@id='playlists']//a[contains(text(), '"+playListName+"')]"));
+        delete(By.xpath("//section[@id='playlistWrapper']" +
+                "//table[@class='items']//td[contains(text(), '" + songName + "')]"));
+        return this;
+    }
 //protected void createPlaylist(String playListName) {
 //    wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector
 //                    ("i[data-testid='sidebar-create-playlist-btn']")))
