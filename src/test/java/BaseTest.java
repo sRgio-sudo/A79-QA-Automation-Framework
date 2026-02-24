@@ -2,9 +2,11 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -59,32 +61,36 @@ public class BaseTest {
         switch (browser) {
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
-                return new FirefoxDriver();
+                FirefoxOptions ffOptions = new FirefoxOptions();
+                ffOptions.addArguments("--headless");
+                ffOptions.addArguments("--width=1920");
+                ffOptions.addArguments("--height=1080");
+                ffOptions.addPreference("dom.webnotifications.enabled", false);
+                return new FirefoxDriver(ffOptions);
             case "MicrosoftEdge":
                 WebDriverManager.edgedriver().setup();
-                EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.addArguments("--remote-all-origins=*");
-                return new EdgeDriver(edgeOptions);
+                return new EdgeDriver(addChromiumArguments(new EdgeOptions()));
             case "grid-edge":
                 caps.setCapability("browserName", "MicrosoftEdge");
-                return new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
+                EdgeOptions edgeOptions = addChromiumArguments(new EdgeOptions());
+                edgeOptions.merge(caps);
+                return new RemoteWebDriver(URI.create(gridURL).toURL(), edgeOptions);
             case "grid-firefox":
                 caps.setCapability("browserName", "firefox");
-                return new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
+                FirefoxOptions ffGridOptions = new FirefoxOptions();
+                ffGridOptions.addArguments("-headless", "--width=1920", "--height=1080");
+                ffGridOptions.merge(caps);
+                return new RemoteWebDriver(URI.create(gridURL).toURL(), ffGridOptions);
             case "grid-chrome":
                 caps.setCapability("browserName", "chrome");
-                return new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
+                ChromeOptions chromeOptions = addChromiumArguments(new ChromeOptions());
+                chromeOptions.merge(caps);
+                return new RemoteWebDriver(URI.create(gridURL).toURL(), chromeOptions);
             case "cloud":
                 return lambdaTest();
             default:
                 WebDriverManager.chromedriver().setup();
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--remote-allow-origins=*");
-                chromeOptions.addArguments("--start-maximized");
-                chromeOptions.addArguments("--disable-notifications");
-                chromeOptions.addArguments("--disable-infobars");
-
-                return new ChromeDriver(chromeOptions);
+                return new ChromeDriver(addChromiumArguments(new ChromeOptions()));
         }
     }
 
@@ -108,6 +114,14 @@ public class BaseTest {
         browserOptions.setCapability("LT:Options", ltOptions);
         String fullURL = "https://"+username+":"+password+"@"+hubURL;
         return new RemoteWebDriver(new URL(fullURL), browserOptions);
+    }
+    private <T extends ChromiumOptions<?>> T addChromiumArguments(T options) {
+        options.addArguments("--remote-all-origins=*");
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-notifications");
+        options.addArguments("--disable-infobars");
+        return options;
     }
 }
 
