@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -80,6 +81,11 @@ public class BasePage {
                 .visibilityOfElementLocated(By
                         .xpath("//div[@class='success show']")));
         return successMessage;
+    }
+    public void selectDropDown(By locator, String text) {
+                WebElement selectField = wait.until(ExpectedConditions.elementToBeClickable(findElement(locator)));
+        Select select = new Select(selectField);
+        select.selectByVisibleText(text);
     }
 }
 

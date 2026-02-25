@@ -3,13 +3,12 @@
 
 <suite name="PlayerTest">
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
-    <test name="Player Test" preserve-order="false">
+    <test name="FullTest" preserve-order="false">
         <classes>
-            <class name="PlayerTests">
-                <methods>
-                    <include name="hoverCheck"/>
-                </methods>
-            </class>
+            <class name="LoginTests"/>
+            <class name="PlayerTests"/>
+            <class name="PlayListTests"/>
+            <class name="ProfilePageTest"/>
         </classes>
     </test>
 </suite>
