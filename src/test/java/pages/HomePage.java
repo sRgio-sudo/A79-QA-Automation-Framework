@@ -159,4 +159,13 @@ public class HomePage extends BasePage {
         click(avatarIcon);
         return new ProfilePage(driver);
     }
+
+    public HomePage addSongToPlaylist(String song, String playlist) {
+        contextClick(By.xpath("//section[@data-testid='song-excerpts']" +
+                        "//span[contains(text(), '"+song+"')]"));
+        hoverTo(By.cssSelector(".has-sub"));
+        click(By.xpath("//ul[@class='menu submenu menu-add-to']" +
+                "//li[contains(text(), '"+playlist+"')]"));
+        return this;
+    }
 }

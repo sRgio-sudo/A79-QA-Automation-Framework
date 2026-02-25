@@ -41,6 +41,10 @@ public class BasePage {
         actions.sendKeys(Keys.DELETE).perform();
     }
 
+    public void hoverTo(By locator) {
+        actions.moveToElement(findElement(locator)).perform();
+    }
+
     protected WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }

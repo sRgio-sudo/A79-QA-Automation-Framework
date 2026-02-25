@@ -45,10 +45,7 @@ public class PlayListTests extends BaseTest {
                 .openPage()
                 .loginAsValidUser()
                 .songSearch(songToAdd)
-                .clickViewAllButton()
-                .selectFirstSongFromSearch()
-                .clickAddToButton()
-                .selectPlaylist(playList);
+                .addSongToPlaylist(songToAdd, playList);
         String getSuccessMessage = homePage
                 .successMessage()
                 .getText();
