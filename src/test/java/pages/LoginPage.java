@@ -22,10 +22,10 @@ public class LoginPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public LoginPage openPage() {
-        driver.get(url);
-        return this;
-    }
+        public LoginPage openPage() {
+            driver.get(url);
+            return this;
+        }
 
     public HomePage loginAsValidUser() {
         return login(ConfigReader.getProperty("user.email"),

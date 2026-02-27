@@ -4,6 +4,7 @@ import pages.BasePage;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.PlayerComponent;
+import utils.BaseTest;
 
 public class PlayListTests extends BaseTest {
     @Test

@@ -3,6 +3,7 @@ import org.testng.annotations.Test;
 import pages.BasePage;
 import pages.LoginPage;
 import pages.ProfilePage;
+import utils.BaseTest;
 import utils.ConfigReader;
 
 public class ProfilePageTest extends BaseTest {

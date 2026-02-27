@@ -13,11 +13,15 @@ dependencies {
     testImplementation 'org.testng:testng:7.6.1'
     implementation 'org.seleniumhq.selenium:selenium-java:4.5.0'
     testImplementation 'io.github.bonigarcia:webdrivermanager:6.0.1'
+    implementation 'io.cucumber:cucumber-java:7.21.0'
+    implementation 'io.cucumber:cucumber-testng:7.21.0'
+    implementation 'io.cucumber:cucumber-core:7.21.0'
+    implementation 'io.cucumber:gherkin:28.0.0'
 }
 
 test {
     useTestNG() {
-        def suiteName = System.getProperty('suite', 'Regression')
+        def suiteName = System.getProperty('suite', 'FullTest')
         suites "src/test/resources/${suiteName}.xml"
     }
     systemProperty "browser", System.getProperty("browser", "chrome")

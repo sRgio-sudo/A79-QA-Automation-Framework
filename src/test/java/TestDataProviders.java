@@ -1,4 +1,5 @@
 import org.testng.annotations.DataProvider;
+import utils.BaseTest;
 import utils.ConfigReader;
 
 public class TestDataProviders extends BaseTest {

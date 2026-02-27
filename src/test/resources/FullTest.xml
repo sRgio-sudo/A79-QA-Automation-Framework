@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="PlayerTest">
+<suite name="PlayerTest" parallel="methods" thread-count="2">
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="FullTest" preserve-order="false">
         <classes>

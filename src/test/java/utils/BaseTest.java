@@ -1,3 +1,5 @@
+package utils;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,7 +15,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import utils.ConfigReader;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -26,7 +27,7 @@ public class BaseTest {
     public WebDriverWait wait;
     protected Actions actions;
 
-    public WebDriver getDriver() {
+    public static WebDriver getDriver() {
         return threadDriver.get();
     }
 
@@ -56,7 +57,7 @@ public class BaseTest {
 
     public WebDriver pickBrowser(String browser) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
-        String gridURL = "http://localhost:4444";
+        String gridURL = ConfigReader.getProperty("grid.url");
         switch (browser) {
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
@@ -114,7 +115,6 @@ public class BaseTest {
         return new RemoteWebDriver(new URL(fullURL), browserOptions);
     }
     private <T extends ChromiumOptions<?>> T addChromiumArguments(T options) {
-        options.addArguments("--remote-all-origins=*");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--start-maximized");
         options.addArguments("--disable-notifications");

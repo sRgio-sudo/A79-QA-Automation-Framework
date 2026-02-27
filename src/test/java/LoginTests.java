@@ -2,6 +2,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.BaseTest;
 import utils.ConfigReader;
 
 public class LoginTests extends BaseTest {
