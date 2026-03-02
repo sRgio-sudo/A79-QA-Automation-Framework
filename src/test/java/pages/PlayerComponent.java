@@ -26,20 +26,17 @@ public class PlayerComponent extends BasePage {
     }
 
     public PlayerComponent clickPlayButton() {
-        wait.until(ExpectedConditions
-                        .visibilityOfElementLocated(playPauseButton))
-                .click();
+        waitVisibility(playPauseButton).click();
         return this;
     }
 
     public PlayerComponent selectNextSong() {
-        wait.until(ExpectedConditions
-                        .visibilityOfElementLocated(playNextButton))
-                .click();
+        waitVisibility(playNextButton).click();
         return this;
     }
+
     public boolean soundbarCheck() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(soundbarComponent)).isDisplayed();
+        return waitVisibility(soundbarComponent).isDisplayed();
     }
 
 }

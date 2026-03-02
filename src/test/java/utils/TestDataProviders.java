@@ -1,6 +1,7 @@
+package utils;
+
+import drivers.BaseTest;
 import org.testng.annotations.DataProvider;
-import utils.BaseTest;
-import utils.ConfigReader;
 
 public class TestDataProviders extends BaseTest {
     private static final String validEmail = ConfigReader.getProperty("user.email");

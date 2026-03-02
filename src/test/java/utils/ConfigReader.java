@@ -19,6 +19,7 @@ public class ConfigReader {
             throw new RuntimeException("Failed to load config.properties");
         }
     }
+
     public static String getProperty(String key) {
         return prop.getProperty(key);
     }

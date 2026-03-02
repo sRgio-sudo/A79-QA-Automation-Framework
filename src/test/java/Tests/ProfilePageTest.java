@@ -1,16 +1,19 @@
+package Tests;
+
+import drivers.BaseTest;
+import drivers.DriverManager;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BasePage;
 import pages.LoginPage;
 import pages.ProfilePage;
-import utils.BaseTest;
 import utils.ConfigReader;
 
 public class ProfilePageTest extends BaseTest {
     @Test
     public void updateProfileName() {
         String newName = BasePage.generateRandomName();
-        ProfilePage profilePage = new LoginPage(getDriver())
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .getProfile()
@@ -22,7 +25,7 @@ public class ProfilePageTest extends BaseTest {
     }
     @Test
     public void changeCurrentTheme() {
-        ProfilePage profilePage = new LoginPage(getDriver())
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .getProfile()

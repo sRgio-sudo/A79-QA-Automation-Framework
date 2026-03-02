@@ -1,16 +1,19 @@
+package Tests;
+
+import drivers.DriverManager;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BasePage;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.PlayerComponent;
-import utils.BaseTest;
+import drivers.BaseTest;
 
 public class PlayListTests extends BaseTest {
     @Test
     public void playSongFromAllSongList() {
-        PlayerComponent player = new PlayerComponent(getDriver());
-        HomePage homePage = new LoginPage(getDriver())
+        PlayerComponent player = new PlayerComponent(DriverManager.getDriver());
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .selectAllSongList()
@@ -25,7 +28,7 @@ public class PlayListTests extends BaseTest {
 
         String playListName = BasePage.generateRandomName();
         String updatedPlayListName = "playListRenamed";
-        HomePage homePage = new LoginPage(getDriver())
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser();
         homePage
@@ -42,7 +45,7 @@ public class PlayListTests extends BaseTest {
     public void addSongToPlaylist() {
         String songToAdd = "Samurai";
         String playList = "Playlist2";
-        HomePage homePage = new LoginPage(getDriver())
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .songSearch(songToAdd)
@@ -59,7 +62,7 @@ public class PlayListTests extends BaseTest {
     @Test
     public void checkPlaylist() {
         String playListName = "PlayListToDelete";
-        HomePage homePage = new LoginPage(getDriver())
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .createPlaylist(playListName);
@@ -74,7 +77,7 @@ public class PlayListTests extends BaseTest {
         String sortEquals = "contains";
         String sortBy = "Unknown";
 
-        HomePage homePage = new LoginPage(getDriver())
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .createSmartPlaylist(playListName, sortCriteria, sortEquals, sortBy);

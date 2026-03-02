@@ -8,7 +8,7 @@ This repository contains the Test Pro A79 Class Automation Framework, which serv
 <h2>Getting Started</h2>
 If you're a student enrolled in the A79 class, follow these steps to get started with the A79 Class Automation Framework:<br><br>
 1.) Clone this repository to your local machine. <br>
-2.) Explore the sample test case in the 'LoginTests' java class located in the 'src' directory under 'test' > 'java' folder <br>
+2.) Explore the sample test case in the 'Tests.LoginTests' java class located in the 'src' directory under 'test' > 'java' folder <br>
 3.) Complete the assigned homework exercises and participate in live class demonstrations using the framework. <br><br>
 For more detailed instructions regarding the installation of the framework, please refer to the A79 class materials (LMS & slides).
 

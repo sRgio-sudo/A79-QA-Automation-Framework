@@ -1,5 +1,6 @@
 package stepDefenition;
 
+import drivers.DriverManager;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -7,7 +8,7 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pages.HomePage;
 import pages.LoginPage;
-import utils.BaseTest;
+import drivers.BaseTest;
 import utils.ConfigReader;
 
 public class LoginStepDefinition extends BaseTest {
@@ -16,7 +17,7 @@ public class LoginStepDefinition extends BaseTest {
 
     @Given("I open login page")
     public void iOpenLoginPage() {
-        loginPage = new LoginPage(getDriver());
+        loginPage = new LoginPage(DriverManager.getDriver());
         loginPage.openPage();
     }
 
@@ -39,7 +40,7 @@ public class LoginStepDefinition extends BaseTest {
 
     @Then("I am logged in")
     public void iAmLoggedIn() {
-        homePage = new HomePage(getDriver());
+        homePage = new HomePage(DriverManager.getDriver());
         Assert.assertTrue(homePage.isAvatarDisplayed());
     }
 }

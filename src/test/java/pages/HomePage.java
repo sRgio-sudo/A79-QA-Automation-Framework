@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HomePage extends BasePage {
     private By avatarIcon = By.xpath("//a[@data-testid='view-profile-link']");
@@ -53,13 +52,12 @@ public class HomePage extends BasePage {
 
     public HomePage deleteSmartPL(String playListName) {
         waitInvisibilityOfSuccess();
-        actions.contextClick(findElement(By
-                .xpath("//a[contains(text(), '" + playListName + "')]"))).perform();
+        contextClick(By
+                .xpath("//a[contains(text(), '" + playListName + "')]"));
         findElement(By
                 .xpath("//li[contains(text(), 'Delete')]")).click();
-        wait.until(ExpectedConditions
-                .elementToBeClickable(By.cssSelector("div [class='ok']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(succesShow));
+        waitClickable(By.cssSelector("div [class='ok']")).click();
+        waitVisibility(succesShow);
         return this;
     }
 
@@ -77,15 +75,12 @@ public class HomePage extends BasePage {
                 .xpath("//a[contains(text(), '" + playListName + "')]"))).perform();
         findElement(By
                 .xpath("//li[contains(text(), 'Delete')]")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(succesShow));
-
+        visibilityWait(succesShow);
         return this;
     }
 
     public HomePage selectAllSongList() {
-        wait.until(ExpectedConditions
-                        .elementToBeClickable(allSongLink))
-                .click();
+        waitClickable(allSongLink).click();
         return this;
     }
 
@@ -95,15 +90,12 @@ public class HomePage extends BasePage {
     }
 
     public HomePage contextClickPlaySong() { //select song and context click on it
-        wait.until(ExpectedConditions
-                        .elementToBeClickable(contextPlaySong))
-                .click();
+        waitClickable(contextPlaySong).click();
         return this;
     }
 
     public HomePage songSearch(String songName) {
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated(searchField));
+        waitVisibility(searchField);
         clearAndType(searchField, songName);
         return this;
     }
@@ -143,8 +135,8 @@ public class HomePage extends BasePage {
 
     public boolean isPlayListDisplayed(String name) {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//a[contains(text(),'" + name + "')]")));
+            waitVisibility(By
+                    .xpath("//a[contains(text(),'" + name + "')]"));
             return true;
         } catch (TimeoutException e) {
             return false;
@@ -152,6 +144,7 @@ public class HomePage extends BasePage {
     }
 
     public PlayerComponent getPlayer() {
+        visibilityWait(avatarIcon);
         return new PlayerComponent(driver);
     }
 
@@ -162,10 +155,10 @@ public class HomePage extends BasePage {
 
     public HomePage addSongToPlaylist(String song, String playlist) {
         contextClick(By.xpath("//section[@data-testid='song-excerpts']" +
-                        "//span[contains(text(), '"+song+"')]"));
+                "//span[contains(text(), '" + song + "')]"));
         hoverTo(By.cssSelector(".has-sub"));
         click(By.xpath("//ul[@class='menu submenu menu-add-to']" +
-                "//li[contains(text(), '"+playlist+"')]"));
+                "//li[contains(text(), '" + playlist + "')]"));
         return this;
     }
 }

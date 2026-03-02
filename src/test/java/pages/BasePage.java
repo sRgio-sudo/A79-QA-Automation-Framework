@@ -1,15 +1,13 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class BasePage {
@@ -23,12 +21,24 @@ public class BasePage {
         this.actions = new Actions(driver);
     }
 
-    public void click(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(findElement(locator))).click();
+    public void visibilityWait(By locator) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    public void doubleClick(By locator) {
-        actions.doubleClick(findElement(locator)).perform();
+    protected WebElement waitVisibility(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    protected WebElement waitClickable(By locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    protected boolean waitInvisibility(By locator) {
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
+    public void click(By locator) {
+        waitClickable(locator).click();
     }
 
     public void contextClick(By locator) {
@@ -36,8 +46,7 @@ public class BasePage {
     }
 
     public void delete(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(findElement(locator)))
-                .click();
+        waitClickable(locator).click();
         actions.sendKeys(Keys.DELETE).perform();
     }
 
@@ -74,23 +83,39 @@ public class BasePage {
         try {
             WebElement clickToClose = driver.findElement(By.xpath("//div[@class='success show']"));
             clickToClose.click();
-        } catch (Exception e) {
+        } catch (NoSuchElementException ignored) {
         }
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(
-                By.xpath("//div[@class='success show']")));
+        waitInvisibility(By.xpath("//div[@class='success show']"));
     }
 
     public WebElement successMessage() {
-        WebElement successMessage = wait.until(ExpectedConditions
-                .visibilityOfElementLocated(By
-                        .xpath("//div[@class='success show']")));
+        WebElement successMessage = waitVisibility(By
+                        .xpath("//div[@class='success show']"));
         return successMessage;
     }
 
     public void selectDropDown(By locator, String text) {
-                WebElement selectField = wait.until(ExpectedConditions.elementToBeClickable(findElement(locator)));
+        WebElement selectField = waitClickable(locator);
         Select select = new Select(selectField);
         select.selectByVisibleText(text);
+    }
+
+    public void doubleClick(By locator) {
+        actions.doubleClick(findElement(locator)).perform();
+    }
+
+    public void safeClick(By locator) {
+        try {
+            waitClickable(locator).click();
+        } catch (StaleElementReferenceException e) {
+            waitClickable(locator).click();
+        }
+    }
+
+    public void jsClick(By locator) {
+        WebElement element = waitVisibility(locator);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", element);
     }
 }
 

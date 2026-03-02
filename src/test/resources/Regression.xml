@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Regression" parallel="methods" thread-count="2">
+<suite name="Regression" parallel="methods" thread-count="1">
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="false">
         <classes>
-            <class name="LoginTests">
+            <class name="Tests.LoginTests">
                 <methods>
                     <include name="loginWithIncorrectEmail"/>
                     <include name="loginWithIncorrectPassword"/>
                 </methods>
             </class>
-            <class name="PlayerTests">
+            <class name="Tests.PlayerTests">
                 <methods>
                     <include name="hoverCheck"/>
                 </methods>
             </class>
-            <class name="PlayListTests">
+            <class name="Tests.PlayListTests">
                 <methods>
                     <exclude name="renamePlaylist"/>
                 </methods>
             </class>
-            <class name="ProfilePageTest">
-<!--                <methods>-->
-<!--                    <include name="changeCurrentTheme"/>-->
-<!--                </methods>-->
+            <class name="Tests.ProfilePageTest">
+                <methods>
+                    <include name="changeCurrentTheme"/>
+                </methods>
             </class>
         </classes>
     </test>

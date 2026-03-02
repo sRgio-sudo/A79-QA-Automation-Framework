@@ -4,10 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ProfilePage extends BasePage {
-    //Selectors put here:
     private By saveButton = By.xpath("//button[@class='btn-submit']");
     private By newNameField = By.cssSelector("#inputProfileName");
     private By currentPasswordField = By.cssSelector("#inputProfileCurrentPassword");
@@ -19,13 +17,11 @@ public class ProfilePage extends BasePage {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-    //Methods put here:
 
     public ProfilePage provideNewProfileName(String newName) {
         click(newNameField);
         typeAndSubmit(newNameField, newName);
         return this;
-
     }
 
     public ProfilePage currentPass(String pass) {
@@ -33,15 +29,15 @@ public class ProfilePage extends BasePage {
         clearAndType(currentPasswordField, pass);
         return this;
     }
+
     public ProfilePage clickSaveButton() {
         click(saveButton);
         successMessage();
         return this;
     }
+
     public String getProfileName() {
-     return wait.until(ExpectedConditions
-             .visibilityOfElementLocated(profileNameField))
-             .getText();
+        return waitVisibility(profileNameField).getText();
     }
 
     public ProfilePage selectClassisTheme() {
@@ -55,7 +51,7 @@ public class ProfilePage extends BasePage {
     }
 
     public boolean isClassicThemeSelected() {
-        WebElement themeCard = wait.until(ExpectedConditions.visibilityOfElementLocated(classicThemeSetter));
+        WebElement themeCard = waitVisibility(classicThemeSetter);
         String classValue = themeCard.getAttribute("class");
         return classValue.contains("selected");
     }
