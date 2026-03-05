@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="CucumberSuite">
+    <listeners>
+        <listener class-name="utils.TestListener"/>
+    </listeners>
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Login Test">
         <classes>

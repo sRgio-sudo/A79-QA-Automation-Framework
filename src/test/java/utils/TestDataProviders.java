@@ -15,12 +15,37 @@ public class TestDataProviders extends BaseTest {
                 {"", validPassword},
         };
     }
-        @DataProvider(name = "InvalidPasswordData")
-        public static Object[][] getInvalidPasswordData() {
-            return new Object[][]{
-                    {validEmail, "invalidPassword"},
-                    {validEmail, ""},
-                    {validEmail, "uIIgWoYu "},
-            };
-        }
+
+    @DataProvider(name = "InvalidPasswordData")
+    public static Object[][] getInvalidPasswordData() {
+        return new Object[][]{
+                {validEmail, "invalidPassword"},
+                {validEmail, ""},
+                {validEmail, "uIIgWoYu "},
+        };
     }
+
+    @DataProvider(name = "InvalidEmailRegistration")
+    public static Object[][] getInvalidLoginEmails() {
+        return new Object[][]{
+                {"invalidDomain@yahoo.com", "Yahoo domain"},
+                {EmailGenerator.generateGmailEmail(), "Gmail domain + alias"},
+                {EmailGenerator.generatePlusEmail(), "+digits alias"},
+                {EmailGenerator.generatePlusTextEmail(), "+text alias"},
+                {"user@test.io", "Domain without 'pro'"},
+                {"user@pro.io", "Domain without 'test'"},
+                {"user@testproio", "Domain without dot"},
+        };
+    }
+
+    @DataProvider(name = "CheckIncorrectSings")
+    public static Object[][] getInvalidEmailSigns() {
+        return new Object[][]{
+                {"user@ ", "Missing local part after @"},
+                {"user@.io", "Domain without 'testpro'"},
+                {"email@domain..com", "Domain with double dots"},
+                {"automation_test testpro.io", "Missing @"},
+                {"automation_test@testpro>io", "Using > instead ."},
+        };
+    }
+}

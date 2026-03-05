@@ -1,11 +1,13 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigReader;
+
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
     private String url = ConfigReader.getProperty("base.url");
@@ -20,16 +22,17 @@ public class LoginPage extends BasePage {
     @FindBy(css = "p #button")
     private WebElement submitRegistrationButton;
     private By infoMessage = By.cssSelector("div .messages");
+    private By errorMessage = By.cssSelector("div.errors");
 
     public LoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-        public LoginPage openPage() {
-            driver.get(url);
-            return this;
-        }
+    public LoginPage openPage() {
+        driver.get(url);
+        return this;
+    }
 
     public HomePage loginAsValidUser() {
         return login(ConfigReader.getProperty("user.email"),
@@ -53,6 +56,7 @@ public class LoginPage extends BasePage {
     public void clickRegistrationButton() {
         registrationButton.click();
     }
+
     public void clickSubmitRegistrationButton() {
         submitRegistrationButton.click();
     }
@@ -71,6 +75,26 @@ public class LoginPage extends BasePage {
     }
 
     public String getNotificationMessageText() {
-       return waitVisibility(infoMessage).getText();
+        return waitVisibility(infoMessage).getText();
+    }
+
+    public String getErrorMessageText() {
+        return waitVisibility(errorMessage).getText();
+    }
+
+    public String getQuickNotificationText() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            return shortWait.until(ExpectedConditions.visibilityOfElementLocated(infoMessage)).getText();
+        } catch (TimeoutException e) {
+            return "";
+        }
+    }
+    public LoginPage disableHtml5Validation() {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].setAttribute('novalidate', 'novalidate')",
+                driver.findElement(By.cssSelector("form"))
+        );
+        return this;
     }
 }

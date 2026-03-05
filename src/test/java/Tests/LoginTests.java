@@ -51,7 +51,8 @@ public class LoginTests extends BaseTest {
         Assert.assertEquals(loginPage.getPageUrl(), "https://qa.koel.app/registration");
     }
 
-    @Test
+    @Test(description = "TC01 Koel | Registration | " +
+            "Verify successful account creation with valid @testpro.io domain and DB record validation")
     public void succesfulRegistrationAndVerifyDb() {
         String email = EmailGenerator.generateTestioEmail();
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
@@ -68,7 +69,9 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(hash.startsWith("$2"));
         Assert.assertEquals(hash.length(), 60);
     }
-    @Test
+
+    @Test(description = "TC02 Koel | Registration | " +
+            "Check registration user with existing email")
     public void registerWithExistedEmail() {
         String email = EmailGenerator.generateTestioEmail();
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
@@ -86,5 +89,42 @@ public class LoginTests extends BaseTest {
                 .clickSubmitRegistrationButton();
         String errorMessage = loginPage.getNotificationMessageText();
         Assert.assertTrue(errorMessage.toLowerCase().contains("user already registered"));
+    }
+
+    @Test(dataProvider = "InvalidEmailRegistration", dataProviderClass = TestDataProviders.class,
+            description = "TC03 Koel | Registration |" +
+                    " Check registration user with invalid email")
+    public void registerWithInvalidEmail(String email, String description) {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.openPage()
+                .clickRegistrationButton();
+        loginPage.provideEmail(email)
+                .clickSubmitRegistrationButton();
+
+        String successMessage = loginPage.getQuickNotificationText();
+        Assert.assertEquals(successMessage, "");
+        String errorMessage = loginPage.getErrorMessageText();
+        Assert.assertTrue(errorMessage.toLowerCase()
+                        .contains("only certain emails are allowed"),
+                "Failed on scenario: " + description);
+    }
+
+    @Test(dataProvider = "CheckIncorrectSings", dataProviderClass = TestDataProviders.class,
+            description = "TC04Koel | Registration | " +
+                    "Check registration user with incorrect signs")
+    public void checkIncorrectSings(String email, String description) {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.openPage()
+                .clickRegistrationButton();
+        loginPage.disableHtml5Validation();
+        loginPage.provideEmail(email)
+                .clickSubmitRegistrationButton();
+
+        String successMessage = loginPage.getQuickNotificationText();
+        Assert.assertEquals(successMessage, "");
+        String errorMessage = loginPage.getErrorMessageText();
+        Assert.assertTrue(errorMessage.toLowerCase()
+                        .contains("only certain emails are allowed"),
+                "Failed on scenario: " + description);
     }
 }

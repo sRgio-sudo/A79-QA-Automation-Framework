@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Smoke" parallel="methods" thread-count="2">
+    <listeners>
+        <listener class-name="utils.TestListener"/>
+    </listeners>
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <parameter name="headLess" value="true"/>
     <test name="Smoke Test" preserve-order="true">

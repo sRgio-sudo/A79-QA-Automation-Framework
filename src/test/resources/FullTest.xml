@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="PlayerTest" parallel="methods" thread-count="2">
+    <listeners>
+        <listener class-name="utils.TestListener"/>
+    </listeners>
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="FullTest" preserve-order="false">
         <classes>

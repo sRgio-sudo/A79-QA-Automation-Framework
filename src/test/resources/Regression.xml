@@ -2,28 +2,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Regression" parallel="methods" thread-count="1">
+    <listeners>
+        <listener class-name="utils.TestListener"/>
+    </listeners>
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="false">
         <classes>
             <class name="Tests.LoginTests">
                 <methods>
-                    <include name="loginWithIncorrectEmail"/>
-                    <include name="loginWithIncorrectPassword"/>
-                </methods>
-            </class>
-            <class name="Tests.PlayerTests">
-                <methods>
-                    <include name="hoverCheck"/>
-                </methods>
-            </class>
-            <class name="Tests.PlayListTests">
-                <methods>
-                    <exclude name="renamePlaylist"/>
-                </methods>
-            </class>
-            <class name="Tests.ProfilePageTest">
-                <methods>
-                    <include name="changeCurrentTheme"/>
+                    <include name="checkIncorrectSings"/>
                 </methods>
             </class>
         </classes>

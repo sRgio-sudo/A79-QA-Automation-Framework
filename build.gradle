@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     testImplementation 'org.testng:testng:7.6.1'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.5.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.28.1'
     testImplementation 'io.github.bonigarcia:webdrivermanager:6.0.1'
     implementation 'io.cucumber:cucumber-java:7.21.0'
     implementation 'io.cucumber:cucumber-testng:7.21.0'

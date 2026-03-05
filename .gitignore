@@ -2,6 +2,7 @@ local.properties
 .gradle
 /build/
 .idea*
+screenshots/
 # Ignore Gradle GUI config
 gradle-app.setting
 gradle*

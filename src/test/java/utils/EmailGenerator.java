@@ -1,5 +1,7 @@
 package utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 public class EmailGenerator {
 
     public static String generateTestioEmail() {
@@ -7,10 +9,19 @@ public class EmailGenerator {
     }
 
     public static String generateGmailEmail() {
-        return "test_automation" + System.currentTimeMillis() + "@gmail.com";
+        String time = String.valueOf(System.currentTimeMillis());
+        String shortTime = time.substring(time.length() - 3);
+        return "s.trofimov.testing" + shortTime + "@gmail.com";
     }
 
     public static String generatePlusEmail() {
-        return "test_automation+1_" + System.currentTimeMillis() + "@testpro.io";
+        String time = String.valueOf(System.currentTimeMillis());
+        String shortTime = time.substring(time.length() - 3);
+        return "test_automation+" + shortTime + "@testpro.io";
+    }
+
+    public static String generatePlusTextEmail() {
+        String randomLetters = RandomStringUtils.randomAlphabetic(5).toLowerCase();
+        return "test_automation+" + randomLetters + "@testpro.io";
     }
 }
