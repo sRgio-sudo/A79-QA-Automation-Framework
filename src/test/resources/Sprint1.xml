@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Sprint1" parallel="methods" thread-count="1">
+    <parameter name="BaseURL" value="https://qa.koel.app/"/>
+    <test name="Smoke Test" preserve-order="true">
+        <classes>
+            <class name="Tests.LoginTests">
+                <methods>
+                    <include name="registerWithExistedEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

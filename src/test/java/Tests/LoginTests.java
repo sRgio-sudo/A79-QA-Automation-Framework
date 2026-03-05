@@ -1,5 +1,6 @@
 package Tests;
 
+import db.DbService;
 import drivers.BaseTest;
 import drivers.DriverManager;
 import org.testng.Assert;
@@ -7,6 +8,7 @@ import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import utils.ConfigReader;
+import utils.EmailGenerator;
 import utils.TestDataProviders;
 
 public class LoginTests extends BaseTest {
@@ -49,4 +51,40 @@ public class LoginTests extends BaseTest {
         Assert.assertEquals(loginPage.getPageUrl(), "https://qa.koel.app/registration");
     }
 
+    @Test
+    public void succesfulRegistrationAndVerifyDb() {
+        String email = EmailGenerator.generateTestioEmail();
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.openPage()
+                .clickRegistrationButton();
+        loginPage.provideEmail(email)
+                .clickSubmitRegistrationButton();
+        String message = loginPage.getNotificationMessageText();
+        Assert.assertTrue(message.contains("sent a confirmation link to the email"));
+        //Verification in DB
+        DbService dbService = new DbService();
+        String hash = dbService.getUserPasswordHash(email);
+        Assert.assertNotNull(hash);
+        Assert.assertTrue(hash.startsWith("$2"));
+        Assert.assertEquals(hash.length(), 60);
+    }
+    @Test
+    public void registerWithExistedEmail() {
+        String email = EmailGenerator.generateTestioEmail();
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.openPage()
+                .clickRegistrationButton();
+        loginPage.provideEmail(email)
+                .clickSubmitRegistrationButton();
+        DbService dbService = new DbService();
+        String hash = dbService.getUserPasswordHash(email);
+        Assert.assertNotNull(hash);
+        Assert.assertTrue(hash.startsWith("$2"));
+        loginPage.openPage()
+                .clickRegistrationButton();
+        loginPage.provideEmail(email)
+                .clickSubmitRegistrationButton();
+        String errorMessage = loginPage.getNotificationMessageText();
+        Assert.assertTrue(errorMessage.toLowerCase().contains("user already registered"));
+    }
 }

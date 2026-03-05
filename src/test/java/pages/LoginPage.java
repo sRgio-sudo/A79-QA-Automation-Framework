@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,9 @@ public class LoginPage extends BasePage {
     private WebElement submitButton;
     @FindBy(css = "a[href='registration']")
     private WebElement registrationButton;
+    @FindBy(css = "p #button")
+    private WebElement submitRegistrationButton;
+    private By infoMessage = By.cssSelector("div .messages");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -49,6 +53,9 @@ public class LoginPage extends BasePage {
     public void clickRegistrationButton() {
         registrationButton.click();
     }
+    public void clickSubmitRegistrationButton() {
+        submitRegistrationButton.click();
+    }
 
     public HomePage login(String email, String password) {
         provideEmail(email);
@@ -61,5 +68,9 @@ public class LoginPage extends BasePage {
     public boolean isLoginPageDisplayed() {
         return driver.getCurrentUrl()
                 .equals(ConfigReader.getProperty("base.url"));
+    }
+
+    public String getNotificationMessageText() {
+       return waitVisibility(infoMessage).getText();
     }
 }

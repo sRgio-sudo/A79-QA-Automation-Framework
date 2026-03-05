@@ -4,23 +4,37 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
-    private static Properties prop = new Properties();
+    private static Properties config = new Properties();
+    private static Properties local = new Properties();
 
     static {
         try {
-            InputStream input = ConfigReader
-                    .class.getClassLoader()
+            InputStream configInput = ConfigReader.class
+                    .getClassLoader()
                     .getResourceAsStream("config.properties");
-            if (input == null) {
+            if (configInput == null) {
                 throw new RuntimeException("config.properties file not found");
             }
-            prop.load(input);
+            config.load(configInput);
+            InputStream localInput = ConfigReader.class
+                    .getClassLoader()
+                    .getResourceAsStream("local.properties");
+            if (localInput != null) {
+                local.load(localInput);
+            }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load config.properties");
+            throw new RuntimeException("Failed to load properties", e);
         }
     }
 
     public static String getProperty(String key) {
-        return prop.getProperty(key);
+        String value = local.getProperty(key);
+        if (value == null) {
+            value = config.getProperty(key);
+        }
+        if (value == null) {
+            throw new RuntimeException(key + " not found");
+        }
+        return value;
     }
 }
