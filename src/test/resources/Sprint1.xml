@@ -10,8 +10,10 @@
         <classes>
             <class name="Tests.LoginTests">
                 <methods>
+                    <include name="successfulRegistrationAndVerifyDb"/>
                     <include name="registerWithExistedEmail"/>
                     <include name="registerWithInvalidEmail"/>
+                    <include name="checkIncorrectCharachters"/>
                 </methods>
             </class>
         </classes>

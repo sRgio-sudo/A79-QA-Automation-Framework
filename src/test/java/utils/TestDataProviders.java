@@ -38,8 +38,8 @@ public class TestDataProviders extends BaseTest {
         };
     }
 
-    @DataProvider(name = "CheckIncorrectSings")
-    public static Object[][] getInvalidEmailSigns() {
+    @DataProvider(name = "CheckIncorrectCharachters")
+    public static Object[][] getInvalidEmailCharachters() {
         return new Object[][]{
                 {"user@ ", "Missing local part after @"},
                 {"user@.io", "Domain without 'testpro'"},

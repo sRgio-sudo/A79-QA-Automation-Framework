@@ -1,5 +1,6 @@
 package Tests;
 
+import db.DbService;
 import drivers.DriverManager;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -61,13 +62,16 @@ public class PlayListTests extends BaseTest {
 
     @Test
     public void checkPlaylist() {
-        String playListName = "PlayListToDelete";
+        String playListName = "Automation_PL_Check";
         HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAsValidUser()
                 .createPlaylist(playListName);
         Assert.assertTrue(homePage.isPlayListDisplayed(playListName));
         homePage.deletePlaylist(playListName);
+//        DB Check
+        DbService dbService = new DbService();
+
     }
 
     @Test

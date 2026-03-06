@@ -12,7 +12,7 @@ import utils.EmailGenerator;
 import utils.TestDataProviders;
 
 public class LoginTests extends BaseTest {
-    @Test //Log-in positive test
+    @Test
     public void loginValidData() {
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
         HomePage homePage = loginPage
@@ -53,7 +53,7 @@ public class LoginTests extends BaseTest {
 
     @Test(description = "TC01 Koel | Registration | " +
             "Verify successful account creation with valid @testpro.io domain and DB record validation")
-    public void succesfulRegistrationAndVerifyDb() {
+    public void successfulRegistrationAndVerifyDb() {
         String email = EmailGenerator.generateTestioEmail();
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
         loginPage.openPage()
@@ -109,10 +109,10 @@ public class LoginTests extends BaseTest {
                 "Failed on scenario: " + description);
     }
 
-    @Test(dataProvider = "CheckIncorrectSings", dataProviderClass = TestDataProviders.class,
+    @Test(dataProvider = "CheckIncorrectCharachters", dataProviderClass = TestDataProviders.class,
             description = "TC04Koel | Registration | " +
-                    "Check registration user with incorrect signs")
-    public void checkIncorrectSings(String email, String description) {
+                    "Check registration user with incorrect charachters")
+    public void checkIncorrectCharachters(String email, String description) {
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
         loginPage.openPage()
                 .clickRegistrationButton();
