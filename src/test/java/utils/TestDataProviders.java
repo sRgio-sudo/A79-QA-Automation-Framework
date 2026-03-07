@@ -48,4 +48,18 @@ public class TestDataProviders extends BaseTest {
                 {"automation_test@testpro>io", "Using > instead ."},
         };
     }
+
+    @DataProvider(name = "playListNames")
+    public static Object[][] getPlayListNames() {
+        return new Object[][]{
+                {"Ab", false},
+                {"AbC", true},
+                {"1234567890", true},
+                {"ABCDEFGHIJK", false},
+                {"  ", false},
+                {"Playlist 1", true},
+                {"!@#$%^&*()", true},
+                {"Плейлист1", true},
+        };
+    }
 }

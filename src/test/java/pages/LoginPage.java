@@ -90,6 +90,7 @@ public class LoginPage extends BasePage {
             return "";
         }
     }
+
     public LoginPage disableHtml5Validation() {
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].setAttribute('novalidate', 'novalidate')",

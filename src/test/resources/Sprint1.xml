@@ -16,6 +16,13 @@
                     <include name="checkIncorrectCharachters"/>
                 </methods>
             </class>
+            <class name="Tests.PlayListTests">
+                <methods>
+                    <include name="checkPlaylist"/>
+                    <include name="checkPlayListSameName"/>
+                    <include name="checkPlayListNameParameters"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

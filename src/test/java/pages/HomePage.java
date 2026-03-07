@@ -1,8 +1,11 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
 
 public class HomePage extends BasePage {
     private By avatarIcon = By.xpath("//a[@data-testid='view-profile-link']");
@@ -21,6 +24,7 @@ public class HomePage extends BasePage {
     private By addToButton = By.cssSelector("button[data-test='add-to-btn']");
     private By smartPLNameField = By.cssSelector(".form-row input[name='name']");
     private By saveButton = By.cssSelector("footer [type='submit']");
+    private By inputListNameFrame = By.cssSelector("form[name='create-simple-playlist-form']");
 
 
     public HomePage(WebDriver driver) {
@@ -160,5 +164,45 @@ public class HomePage extends BasePage {
         click(By.xpath("//ul[@class='menu submenu menu-add-to']" +
                 "//li[contains(text(), '" + playlist + "')]"));
         return this;
+    }
+
+    public int countPlayLists(String playlistName) {
+        List<WebElement> pLstElement = driver
+                .findElements(By
+                        .xpath("//section[@id='playlists']//a[text()='" + playlistName + "']"));
+        return pLstElement.size();
+    }
+
+    public HomePage deleteAllPlaylistsByName(String playlistName) {
+        while (countPlayLists(playlistName) > 0) {
+            deletePlaylist(playlistName);
+        }
+        return this;
+    }
+
+    public boolean isRedFramePresent() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            WebElement nameField = shortWait.until(ExpectedConditions.presenceOfElementLocated(inputListNameFrame));
+            String classAttribute = nameField.getAttribute("class");
+            return classAttribute != null && classAttribute.contains("error");
+        } catch (TimeoutException | NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public String getSuccessToastText() {
+        return waitVisibility(succesShow).getText();
+    }
+
+    public boolean isSuccessToastPresent() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(3))
+            .until(ExpectedConditions
+            .visibilityOfElementLocated(succesShow));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }

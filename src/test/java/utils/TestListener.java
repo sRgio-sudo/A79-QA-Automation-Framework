@@ -9,12 +9,19 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-
         WebDriver driver = DriverManager.getDriver();
-
         if (driver != null) {
-            String testName = result.getMethod().getMethodName();
+            String testName = result.getMethod().getMethodName() + "_FAILED";
             ScreenshotUtils.captureScreenshot(driver, testName);
         }
     }
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        WebDriver driver = DriverManager.getDriver();
+        if (driver != null) {
+            String testName = result.getMethod().getMethodName() + "_PASSED";
+            ScreenshotUtils.captureScreenshot(driver, testName);
+        }
+    }
+
 }
