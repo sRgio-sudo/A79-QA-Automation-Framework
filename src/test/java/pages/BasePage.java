@@ -29,7 +29,7 @@ public class BasePage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    protected WebElement waitClickable(By locator) {
+    public WebElement waitClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -116,6 +116,11 @@ public class BasePage {
         WebElement element = waitVisibility(locator);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
+    }
+
+    public void forceClear(By locator) {
+        WebElement element = waitClickable(locator);
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
     }
 }
 

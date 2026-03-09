@@ -8,9 +8,9 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="true">
         <classes>
-            <class name="____">
+            <class name="Tests.ProfilePageTest">
                 <methods>
-                    <include name="___"/>
+                    <include name="checkPasswordValidation"/>
                 </methods>
             </class>
         </classes>

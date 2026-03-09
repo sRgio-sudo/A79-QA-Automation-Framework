@@ -1,0 +1,8 @@
+# test account
+user.password=ENTER_YOUR_PASSWORD
+#API account
+api.user.password=ENTER_YOUR_PASSWORD
+# Database
+db.password=ENTER_YOUR_PASSWORD
+# second account for password tests
+user.test.password=ENTER_YOUR_PASSWORD

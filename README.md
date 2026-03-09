@@ -1,16 +1,22 @@
-<h1>Test Pro A79 Class Automation Framework Repository</h1><br>
+# A79-QA-Automation-Framework
 
-Welcome to the Test Pro A79 Class Automation Framework repository! <br>
+## Project Description
+This repository contains an automated testing framework for the **Koel App** (v6). The goal of this project is to cover critical user paths including Login, Registration, Playlist management, and Profile security validation.
 
-<h2>Overview</h2>
-This repository contains the Test Pro A79 Class Automation Framework, which serves as an educational tool for students' homework and live class demonstrations.
+## Tech Stack
+* **Java 21** (JDK 21)
+* **Selenium WebDriver** (v4.28.1)
+* **TestNG** (Testing Framework)
+* **Gradle** (Build tool)
+* **JDBC** (Database validation)
 
-<h2>Getting Started</h2>
-If you're a student enrolled in the A79 class, follow these steps to get started with the A79 Class Automation Framework:<br><br>
-1.) Clone this repository to your local machine. <br>
-2.) Explore the sample test case in the 'Tests.LoginTests' java class located in the 'src' directory under 'test' > 'java' folder <br>
-3.) Complete the assigned homework exercises and participate in live class demonstrations using the framework. <br><br>
-For more detailed instructions regarding the installation of the framework, please refer to the A79 class materials (LMS & slides).
+## Setup Instructions
+1. Clone the repository.
+2. Create a `local.properties` file in the root directory.
+3. Use `local.properties.example` as a template and fill in your actual credentials.
+4. Ensure you have Chrome/ChromeDriver installed.
 
-<h2>Contact Information</h2>
-If you have any questions or need further assistance, feel free to contact the course instructor, our support team or send a message in Teams for A79.  
+## Running Tests
+To run the full sprint suite (including parallel and sequential tests) use Sprint1.xml:
+```bash
+./gradlew clean test -DsuiteXmlFile=Sprint1.xml

@@ -3,22 +3,21 @@ package Tests;
 import db.DbService;
 import drivers.BaseTest;
 import drivers.DriverManager;
+import models.User;
+import models.UserFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HomePage;
 import pages.LoginPage;
-import utils.ConfigReader;
 import utils.EmailGenerator;
 import utils.TestDataProviders;
 
 public class LoginTests extends BaseTest {
     @Test
-    public void loginValidData() {
-        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
-        HomePage homePage = loginPage
+    public void loginValidUser() {
+        User user = UserFactory.mainUser();
+        pages.HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
-                .login(ConfigReader.getProperty("user.email"),
-                        ConfigReader.getProperty("user.password"));
+                .loginAs(user);
 
         Assert.assertTrue(homePage.isAvatarDisplayed());
     }
