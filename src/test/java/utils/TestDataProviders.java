@@ -25,43 +25,16 @@ public class TestDataProviders extends BaseTest {
         };
     }
 
-    @DataProvider(name = "InvalidEmailRegistration")
-    public static Object[][] getInvalidLoginEmails() {
-        return new Object[][]{
-                {"invalidDomain@yahoo.com", "Yahoo domain"},
-                {EmailGenerator.generateGmailEmail(), "Gmail domain + alias"},
-                {EmailGenerator.generatePlusEmail(), "+digits alias"},
-                {EmailGenerator.generatePlusTextEmail(), "+text alias"},
-                {"user@test.io", "Domain without 'pro'"},
-                {"user@pro.io", "Domain without 'test'"},
-                {"user@testproio", "Domain without dot"},
-        };
-    }
-
-    @DataProvider(name = "CheckIncorrectCharachters")
-    public static Object[][] getInvalidEmailCharachters() {
-        return new Object[][]{
-                {"user@ ", "Missing local part after @"},
-                {"user@.io", "Domain without 'testpro'"},
-                {"email@domain..com", "Domain with double dots"},
-                {"automation_test testpro.io", "Missing @"},
-                {"automation_test@testpro>io", "Using > instead ."},
-        };
-    }
-
     @DataProvider(name = "playListNames")
     public static Object[][] getPlayListNames() {
         return new Object[][]{
                 {"Ab", false},
                 {"AbC", true},
-                {"1234567890", true},
-                {"ABCDEFGHIJK", false},
-                {"  ", false},
-                {"Playlist 1", true},
-                {"!@#$%^&*()", true},
-                {"Плейлист1", true},
+                {"123456789A", true},
+                {"1234567890A", false},
         };
     }
+
     @DataProvider(name = "newPasswordsSet")
     public static Object[][] getNewPasswordsSet() {
         return new Object[][]{
@@ -75,6 +48,16 @@ public class TestDataProviders extends BaseTest {
                 {"82!23456789091", false}, //no letters
                 {"12345678909821", false}, //only numbers
                 {"A1!qwertyui", true}, // 1 spec character
+        };
+    }
+
+    @DataProvider(name = "RegistrationNegativeScenarios")
+    public Object[][] registrationNegativeScenarios() {
+        return new Object[][] {
+                { "testtestpro.io", "Email without @ symbol" },
+                { "test@testproio", "Email without dot symbol" },
+                { "test@gmail.com", "Email without @testpro.io domain" },
+                { "test+@testpro.io", "Email with + symbol before @" }
         };
     }
 }

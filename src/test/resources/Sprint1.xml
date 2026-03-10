@@ -12,14 +12,13 @@
                 <methods>
                     <include name="successfulRegistrationAndVerifyDb"/>
                     <include name="registerWithExistedEmail"/>
-                    <include name="registerWithInvalidEmail"/>
-                    <include name="checkIncorrectCharachters"/>
+                    <include name="registerWithInvalidEmailScenarios"/>
                 </methods>
             </class>
             <class name="Tests.PlayListTests">
                 <methods>
-                    <include name="checkPlaylist"/>
-                    <include name="checkPlayListSameName"/>
+                    <include name="createPlayListAndVerifyInDb"/>
+                    <include name="checkPlayListDuplicateName"/>
                     <include name="checkPlayListNameParameters"/>
                 </methods>
             </class>
@@ -29,6 +28,7 @@
         <classes>
             <class name="Tests.ProfilePageTest">
                 <methods>
+                    <include name="verifyPasswordHashChangedInDb"/>
                     <include name="changePassword"/>
                     <include name="checkPasswordValidation"/>
                 </methods>

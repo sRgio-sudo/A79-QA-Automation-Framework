@@ -41,9 +41,8 @@ public class ProfilePageTest extends BaseTest {
         profilePage.selectCatTheme(); //return theme
     }
 
-    @Test(description = "TC08 Koel | Update password | " +
-            "Check password update, check possibility to login with old password " +
-            "and verify new password in Data Base ")
+    @Test(description = "Koel | Update password | " +
+            "Check password update, check login with old and new password ")
     public void changePassword() {
         User user = UserFactory.testUser();
         String oldPassword = user.getPassword();
@@ -56,11 +55,6 @@ public class ProfilePageTest extends BaseTest {
                 .setNewPassword(newPassword);
         Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
         profilePage.waitClearExitButton();
-        // DB Verification
-        DbService dbService = new DbService();
-        String hash = dbService.getUserPasswordHash(user.getEmail());
-        Assert.assertTrue(hash.startsWith("$2"));
-        Assert.assertEquals(hash.length(), 60);
         //Returning to the Login Page and check old password
         profilePage.getLoginPage();
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
@@ -79,7 +73,8 @@ public class ProfilePageTest extends BaseTest {
     }
 
     @Test(dataProvider = "newPasswordsSet", dataProviderClass = TestDataProviders.class,
-            description = "TC09 Koel | Update password | Password Complexity Validation")
+            description = "Koel | Update password | " +
+                    "Profile & Preferences | Password Validation Scenarios")
     public void checkPasswordValidation(String password, boolean valid) {
         User user = UserFactory.testUser();
         String oldPassword = user.getPassword();
@@ -107,6 +102,36 @@ public class ProfilePageTest extends BaseTest {
                             .setNewPassword(oldPassword);
                 }
             }
+        }
+    }
+
+    @Test(description = "Koel | Update password | " +
+            "Verify password was actually updated in DB")
+    public void verifyPasswordHashChangedInDb() {
+        User user = UserFactory.testUser();
+        DbService dbService = new DbService();
+        String oldPassword = user.getPassword();
+        String newPassword = "NewP@ss!234";
+
+        String oldHash = dbService.getUserPasswordHash(user.getEmail());
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .getProfile()
+                .currentPass(oldPassword)
+                .setNewPassword(newPassword);
+        profilePage.waitClearExitButton();
+        try {
+            Thread.sleep(3000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        String newHash = dbService.getUserPasswordHash(user.getEmail());
+        try {
+            Assert.assertNotEquals(oldHash, newHash, "Hash in DB did not change!");
+        } finally {
+            profilePage.currentPass(newPassword)
+                    .setNewPassword(oldPassword);
         }
     }
 }

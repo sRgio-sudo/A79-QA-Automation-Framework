@@ -3,6 +3,8 @@ package Tests;
 import db.DbService;
 import drivers.BaseTest;
 import drivers.DriverManager;
+import models.User;
+import models.UserFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BasePage;
@@ -61,19 +63,18 @@ public class PlayListTests extends BaseTest {
                 .successMessage();
     }
 
-    @Test(description = "TC05 Koel | PlayList | " +
-            "Check create Playlist and verify in Database")
-    public void checkPlaylist() {
+    @Test(description = "Koel | Create New Playlist | " +
+            "User is able to create a playlist and verify in Database")
+    public void createPlayListAndVerifyInDb() {
+        User user = UserFactory.mainUser();
         String playListName = "Automation_PL_Check";
+        DbService dbService = new DbService();
         HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
-                .loginAsValidUser()
+                .loginAs(user)
                 .createPlaylist(playListName);
         Assert.assertTrue(homePage.isPlayListDisplayed(playListName));
-        // DB Check
-        DbService dbService = new DbService();
         String playlist = dbService.checkPlaylistInBase(playListName);
-        Assert.assertNotNull(playlist);
         Assert.assertEquals(playlist, "Automation_PL_Check");
         //Cleanup
         homePage.deletePlaylist(playListName);
@@ -94,30 +95,37 @@ public class PlayListTests extends BaseTest {
         homePage.deleteSmartPL(playListName);
     }
 
-    @Test(description = "TC06 Koel | PlayList | " +
-            "Verify system prevents creating a playlist with a duplicate name")
-    public void checkPlayListSameName() {
-        String playListName = "Automation_Test";
-        HomePage homePage = new LoginPage(DriverManager.getDriver())
-                .openPage()
-                .loginAsValidUser()
-                .createPlaylist(playListName);
-        Assert.assertTrue(homePage.isPlayListDisplayed(playListName));
-        // create same playlist
-        homePage.createPlaylist(playListName);
-        Assert.assertTrue(homePage.isPlayListDisplayed(playListName));
-        Assert.assertEquals(homePage.countPlayLists(playListName), 1);
-        // cleanup
-        homePage.deleteAllPlaylistsByName(playListName);
+    @Test(description = "Koel | Create New Playlist |" +
+            " Verify system prevents creating a playlist with a duplicate name")
+    public void checkPlayListDuplicateName() {
+        User user = UserFactory.mainUser();
+        String playListName = "Duplicate_Test";
+        HomePage homePage = null;
+        try {
+            homePage = new LoginPage(DriverManager.getDriver())
+                    .openPage()
+                    .loginAs(user)
+                    .createPlaylist(playListName);
+            Assert.assertTrue(homePage.isPlayListDisplayed(playListName));
+            // create same playlist
+            homePage.createPlaylist(playListName);
+            Assert.assertEquals(homePage
+                    .countPlayLists(playListName), 1, "Duplicate playlist was created");
+            Assert.assertTrue(homePage
+                    .isRedFramePresent(), "Red border expected for duplicate playlist name");
+            // cleanup
+        } finally {
+            homePage.deleteAllPlaylistsByName(playListName);
+        }
     }
 
     @Test(dataProvider = "playListNames", dataProviderClass = TestDataProviders.class,
-            description = "TC07 Koel | PlayList |" +
-                    " Check playlist name parameters")
+            description = "Koel | Create New Playlist | Boundary Testing")
     public void checkPlayListNameParameters(String name, boolean valid) {
+        User user = UserFactory.mainUser();
         HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
-                .loginAsValidUser();
+                .loginAs(user);
         try {
             homePage.createPlaylist(name);
             if (valid) {
@@ -128,8 +136,8 @@ public class PlayListTests extends BaseTest {
                 Assert.assertFalse(homePage.isSuccessToastPresent(),
                         "Playlist should NOT be created for name: " + name);
                 Assert
-                .assertTrue(homePage.isRedFramePresent(),
-                "Validation border expected");
+                        .assertTrue(homePage.isRedFramePresent(),
+                                "Validation border expected");
             }
         } finally {
             try {
