@@ -1,10 +1,12 @@
 package Tests;
 
+import api.ApiNetworkInterceptor;
 import db.DbService;
 import drivers.BaseTest;
 import drivers.DriverManager;
 import models.User;
 import models.UserFactory;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BasePage;
@@ -147,6 +149,53 @@ public class PlayListTests extends BaseTest {
             } catch (Exception ignored) {
             }
         }
+    }
+
+    @Test(description = " Koel | Favorites | User is able to add song and delete songs from the Favorites playlist")
+    public void checkFavoritesPlaylist() {
+        User user = UserFactory.mainUser();
+        String songA = "Pluto";
+        String songB = "Lament";
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .songSearch(songA)
+                .likeSelectedSongFromSearch(songA);
+        Assert.assertTrue(homePage.isSongLiked(songA));
+        homePage.songSearch(songB)
+                .likeSelectedSongFromSearch(songB);
+        Assert.assertTrue(homePage.isSongLiked(songB));
+        homePage.clickFavorites()
+                .dislikeSongFromFavorites(songA);
+        Assert.assertFalse(homePage.isSongPresentFavorites(songA), "Song should not present in list");
+        homePage.dislikeSongFromFavorites(songB);
+        Assert.assertFalse(homePage.isSongPresentFavorites(songB), "Song should not present in list");
+    }
+
+    @Test(description = "Koel | Favorites | Playlist page display empty state")
+    public void checkFavoritesEmptyState() {
+        User user = UserFactory.mainUser();
+        HomePage homePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .clickFavorites()
+                .unlikeAllFavorites();
+        Assert.assertTrue(homePage.isNoFavoritesPresent(), " 'No favorites yet' message not displayed");
+    }
+
+    @Test(description = "Koel | Favorites | " +
+            "User should be able to download songs from the Favorites playlist page")
+    public void checkFavoritesDownload() {
+        ChromeDriver driver = (ChromeDriver) DriverManager.getDriver();
+        ApiNetworkInterceptor interceptor = new ApiNetworkInterceptor(driver);
+        interceptor.listenForEndpoint("download/songs");
+        User user = UserFactory.mainUser();
+        HomePage homePage = new LoginPage(driver)
+                .openPage()
+                .loginAs(user)
+                .clickFavorites()
+                .downloadFirstSong();
+        Assert.assertTrue(interceptor.whaitAndCheckStatus(2), "Download request was not sent to server");
     }
 }
 

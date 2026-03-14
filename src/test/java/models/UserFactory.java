@@ -15,4 +15,10 @@ public class UserFactory {
                 ConfigReader.getProperty("user.test.password")
         );
     }
+    public static User testUser2() {
+        return new User(
+                ConfigReader.getProperty("spare.test.email"),
+                ConfigReader.getProperty("spare.test.password")
+        );
+    }
 }

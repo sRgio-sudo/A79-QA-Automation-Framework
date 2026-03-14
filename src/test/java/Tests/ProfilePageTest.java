@@ -7,6 +7,7 @@ import models.User;
 import models.UserFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.BasePage;
 import pages.LoginPage;
 import pages.ProfilePage;
@@ -123,7 +124,7 @@ public class ProfilePageTest extends BaseTest {
         profilePage.waitClearExitButton();
         try {
             Thread.sleep(3000);
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         String newHash = dbService.getUserPasswordHash(user.getEmail());
@@ -133,5 +134,89 @@ public class ProfilePageTest extends BaseTest {
             profilePage.currentPass(newPassword)
                     .setNewPassword(oldPassword);
         }
+    }
+
+    @Test(description = "Koel | Profile | Update email |" +
+            " User is able to update account email")
+    public void changeEmail() {
+        DbService dbService = new DbService();
+        User user = UserFactory.mainUser();
+        String password = user.getPassword();
+        String oldEmail = user.getEmail();
+        String newEmail = "sergei.trofimov1@testpro.io";
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .getProfile()
+                .currentPass(password)
+                .setNewEmail(newEmail);
+        Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"), "No success toast");
+        profilePage.waitClearExitButton();
+        //Check new email in Db
+        String dbEmail = dbService.getUserEmail(newEmail);
+        Assert.assertEquals(dbEmail, newEmail, "Email was not updated in DataBase");
+        //Returning to the Login Page and check old email
+        profilePage.getLoginPage();
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        Assert.assertTrue(loginPage.isLogoDisplayed());
+        loginPage.provideEmail(oldEmail)
+                .providePassword(password)
+                .clickSubmitButton();
+        Assert.assertTrue(loginPage.isRedFramePresent(), "Red-frame is not present");
+        //Login with new email
+        loginPage.login(newEmail, password)
+                .getProfile()
+                .currentPass(password)
+                .setNewEmail(oldEmail);
+        Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
+
+    }
+
+    @Test(description = "Koel | Profile | Update email | " +
+            "User is unable to update email to an already existing")
+    public void checkEmailAlreadyExists() {
+        User user = UserFactory.mainUser();
+        User userTest = UserFactory.testUser();
+        String oldEmail = user.getEmail();
+        String password = user.getPassword();
+        String newEmail = userTest.getEmail();
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .getProfile()
+                .currentPass(password)
+                .setNewEmail(newEmail);
+        Assert.assertTrue(profilePage.getErrorMessage()
+                .contains("already been taken"), "Existed email has been accepted");
+        profilePage.currentPass(password)
+                .setNewEmail(oldEmail);
+        Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
+    }
+
+    @Test(dataProvider = "EmailChangeNegativeScenarios", dataProviderClass = TestDataProviders.class,
+            description = "Koel | Update email | Change email validation scenarios")
+    public void changeEmailValidation(String email, String scenarioDescription) {
+        SoftAssert soft = new SoftAssert();
+        User user = UserFactory.mainUser();
+        String password = user.getPassword();
+        String oldEmail = user.getEmail();
+        String invalidEmail = email;
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .getProfile()
+                .currentPass(password)
+                .disableHtml5Validation();
+        profilePage.setNewEmail(invalidEmail);
+        soft.assertFalse(profilePage.qucickSuccessCheck()
+                .contains("update"), "Invalid Email "
+                + scenarioDescription + " has been accepted");
+        soft.assertTrue(profilePage
+                        .isErrorMessageDisplayed(),
+                "Error message not displayed for" + scenarioDescription);
+        profilePage.currentPass(password)
+                .setNewEmail(oldEmail);
+        Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
+        soft.assertAll();
     }
 }

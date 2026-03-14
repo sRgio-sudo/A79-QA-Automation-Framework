@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Sprint1">
+    <listeners>
+        <listener class-name="utils.TestListener"/>
+    </listeners>
+    <parameter name="BaseURL" value="https://qa.koel.app/"/>
+        <test name="Sprint1 Tests" parallel="methods" thread-count="2">
+            <classes>
+                <class name="Tests.SearchTests">
+                    <methods>
+                        <include name="searchClearingTest"/>
+                        <include name="searchNonExistingQueryTest"/>
+                        <include name="searchResultsTest"/>
+                        <include name="searchWithSpacesTest"/>
+                        <include name="searchCaseSensitiveTest"/>
+                    </methods>
+                </class>
+                <class name="Tests.PlayListTests">
+                    <methods>
+                        <include name="checkFavoritesDownload"/>
+                        <include name="checkFavoritesEmptyState"/>
+                        <include name="checkFavoritesPlaylist"/>
+                    </methods>
+                </class>
+            </classes>
+        </test>
+    <test name="Sequential Profile Tests" parallel="none">
+        <classes>
+            <class name="Tests.ProfilePageTest">
+                <methods>
+                    <include name="changeEmail"/>
+                    <include name="checkEmailAlreadyExists"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

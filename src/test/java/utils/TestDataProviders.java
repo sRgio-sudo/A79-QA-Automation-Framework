@@ -60,4 +60,14 @@ public class TestDataProviders extends BaseTest {
                 { "test+@testpro.io", "Email with + symbol before @" }
         };
     }
+
+    @DataProvider(name = "EmailChangeNegativeScenarios")
+    public Object[][] emailChangeNegativeScenarios() {
+        return new Object[][] {
+                { "sergei.trofimov1testpro.io", "Email without @ symbol" },
+                { "sergei.trofimov1@testpro", "Email without dot symbol" },
+                { "sergei.trofimov1@", "Email without @testpro.io domain" },
+                { "sergei.trofimov+test1@testpro.io", "Email with + symbol before @" }
+        };
+    }
 }

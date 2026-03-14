@@ -24,6 +24,7 @@ public class DbService {
         }
         return null;
     }
+
     public String checkPlaylistInBase(String playListName) {
         String query = "SELECT name FROM playlists WHERE name = ? ORDER BY created_at DESC";
         try (PreparedStatement ps = DbConnectionManager
@@ -42,5 +43,24 @@ public class DbService {
         }
         return null;
     }
+
+    public String getUserEmail(String email) {
+        String query = "SELECT email FROM users WHERE email = ?";
+        try (PreparedStatement ps = DbConnectionManager
+                .getConnection()
+                .prepareStatement(query)) {
+            ps.setString(1, email);
+            try
+                    (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("email");
+                }
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException("Failed to find user email", e);
+        }
+        return null;
+    }
 }
+
 

@@ -41,7 +41,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage provideEmail(String email) {
         forceClear(emailField);
-       findElement(emailField)
+        findElement(emailField)
                 .sendKeys(email);
         return this;
     }
@@ -101,12 +101,11 @@ public class LoginPage extends BasePage {
         }
     }
 
-    public LoginPage disableHtml5Validation() {
+    public void disableHtml5Validation() {
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].setAttribute('novalidate', 'novalidate')",
                 driver.findElement(By.cssSelector("form"))
         );
-        return this;
     }
 
     public boolean isRedFramePresent() {

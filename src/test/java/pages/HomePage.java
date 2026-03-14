@@ -25,7 +25,11 @@ public class HomePage extends BasePage {
     private By smartPLNameField = By.cssSelector(".form-row input[name='name']");
     private By saveButton = By.cssSelector("footer [type='submit']");
     private By inputListNameFrame = By.cssSelector("form[name='create-simple-playlist-form']");
-
+    private By noFavoritesMessage = By.xpath("//section[@id='favoritesWrapper']//div[@class='text']");
+    private By likeSongFromSearch = By.xpath("//div[@class='results']//button[@data-test='like-btn']");
+    private By firstSongFromFavorites = By.xpath("//section[@id='favoritesWrapper']//table[@class='items']//tr[1]");
+    private By linkFavorites = By.cssSelector("a[href='#!/favorites']");
+    private By downloadButton = By.cssSelector("li.download");
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -109,13 +113,8 @@ public class HomePage extends BasePage {
         return this;
     }
 
-    public HomePage clickFirstSong() {
-        click(firstSongElement);
-        return this;
-    }
-
-    public HomePage selectFirstSongFromSearch() {
-        click(firstSongFromSearch);
+    public HomePage clickFirstSongFavorites() {
+        click(firstSongFromFavorites);
         return this;
     }
 
@@ -198,11 +197,90 @@ public class HomePage extends BasePage {
     public boolean isSuccessToastPresent() {
         try {
             new WebDriverWait(driver, Duration.ofSeconds(3))
-            .until(ExpectedConditions
-            .visibilityOfElementLocated(succesShow));
+                    .until(ExpectedConditions
+                            .visibilityOfElementLocated(succesShow));
             return true;
         } catch (TimeoutException e) {
             return false;
         }
     }
+
+    public SearchPage getSearchPage() {
+        return new SearchPage(driver);
+    }
+
+    public HomePage likeSelectedSongFromSearch(String song) {
+        WebElement selectedSong = waitVisibility(By
+                .xpath("//section[@id='searchExcerptsWrapper']" +
+                        "//article[descendant::span[contains(text(),'" + song + "')]]" +
+                        "//button[@data-test='like-btn']"));
+        selectedSong.click();
+        return this;
+    }
+
+    private By getLikeIconSelector(String song) {
+        String liked = "//section[@id='searchExcerptsWrapper']" +
+                "//article[descendant::span[contains(text(),'" + song + "')]]" +
+                "//button[@data-test='like-btn']//i";
+        return By.xpath(liked);
+    }
+
+    private By getFavoritesLikeSelector(String song) {
+        String liked = "//section[@id='favoritesWrapper']//tr[contains(., '"+song+"')]//i";
+        return By.xpath(liked);
+    }
+
+    public boolean isSongLiked(String song) {
+        return waitVisibility(getLikeIconSelector(song))
+                .getDomAttribute("data-test")
+                .contains("liked");
+    }
+
+    public HomePage clickFavorites() {
+        click(linkFavorites);
+        return this;
+    }
+
+    public HomePage dislikeSongFromFavorites(String song) {
+        WebElement selectedSong = waitVisibility(By
+                .xpath("//section[@id='favoritesWrapper']" +
+                        "//tr[contains(., '"+song+"')]//button[@data-test='like-btn']"));
+        selectedSong.click();
+        return this;
+    }
+
+    public boolean isSongPresentFavorites(String song) {
+        try {
+            waitVisibility(By
+                    .xpath("//table[@class='items']//td[contains(.,'"+song+"')]"));
+            return true;
+        }catch (TimeoutException e) {
+                return false;
+        }
+    }
+
+    public HomePage unlikeAllFavorites() {
+        By likeBtnSelector = By.xpath("//section[@id='favoritesWrapper']//button[@data-test='like-btn']");
+        int count = driver.findElements(likeBtnSelector).size();
+        while (count > 0) {
+            List<WebElement> buttons = driver.findElements(likeBtnSelector);
+            buttons.get(0).click();
+            final int currentCount = count;
+            wait.until(d -> d.findElements(likeBtnSelector).size() < currentCount);
+
+            count = driver.findElements(likeBtnSelector).size();
+        }
+        return this;
+    }
+
+    public boolean isNoFavoritesPresent() {
+        return waitVisibility(noFavoritesMessage).isDisplayed();
+    }
+
+        public HomePage downloadFirstSong (){
+            contextClick(firstSongFromFavorites);
+            click(downloadButton);
+        return this;
+        }
+
 }

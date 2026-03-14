@@ -8,11 +8,9 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="true">
         <classes>
-            <class name="Tests.PlayListTests">
+            <class name="Tests.SearchTests">
                 <methods>
-                    <include name="createPlayListAndVerifyInDb"/>
-                    <include name="checkPlayListDuplicateName"/>
-                    <include name="checkPlayListNameParameters"/>
+                    <include name="searchNonExistingQueryTest"/>
                 </methods>
             </class>
         </classes>

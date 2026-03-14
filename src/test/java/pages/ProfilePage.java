@@ -1,11 +1,14 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class ProfilePage extends BasePage {
@@ -19,6 +22,7 @@ public class ProfilePage extends BasePage {
     private By errorMessage = By.xpath("//div[@class='error show']");
     private By successMessage = By.xpath("//div[@class='success show']");
     private By logOutButton = By.cssSelector("a[data-testid='btn-logout']");
+    private By emailField = By.cssSelector("#inputProfileEmail");
 
 
     public ProfilePage(WebDriver driver) {
@@ -74,12 +78,16 @@ public class ProfilePage extends BasePage {
         return waitVisibility(successMessage).getText();
     }
 
+    public String getErrorMessage() {
+        return waitVisibility(errorMessage).getText();
+    }
+
     public boolean isErrorMessageDisplayed() {
-       try {
-           return waitVisibility(errorMessage).isDisplayed();
-       }catch (Exception e){
-           return false;
-       }
+        try {
+            return waitVisibility(errorMessage).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public LoginPage getLoginPage() {
@@ -94,8 +102,34 @@ public class ProfilePage extends BasePage {
         if (!toasts.isEmpty()) {
             try {
                 toasts.get(0).click();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
         waitInvisibility(successToast);
+    }
+
+    public ProfilePage disableHtml5Validation() {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].setAttribute('type', 'text')",
+                driver.findElement(emailField)
+        );
+        return this;
+    }
+
+    public ProfilePage setNewEmail(String newEmail) {
+        clearAndType(emailField, newEmail);
+        click(saveButton);
+        return this;
+    }
+
+    public String qucickSuccessCheck() {
+        try {
+            // Ставим очень маленький таймаут (1-2 сек), т.к. если успех есть, он вылетает сразу
+            return new WebDriverWait(driver, Duration.ofSeconds(2))
+                    .until(ExpectedConditions.visibilityOfElementLocated(successMessage))
+                    .getText();
+        } catch (Exception e) {
+            return ""; // Сообщения нет — и это хорошо для негативного теста!
+        }
     }
 }
