@@ -143,7 +143,7 @@ public class ProfilePageTest extends BaseTest {
         User user = UserFactory.mainUser();
         String password = user.getPassword();
         String oldEmail = user.getEmail();
-        String newEmail = "sergei.trofimov1@testpro.io";
+        String newEmail = "internstudent@testpro.io";
         ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAs(user)
@@ -218,5 +218,29 @@ public class ProfilePageTest extends BaseTest {
                 .setNewEmail(oldEmail);
         Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
         soft.assertAll();
+    }
+
+    @Test (description = "Regression| Update email | " +
+            "User is not able to update email with already registered email")
+    public void checkEmailAlreadyExistsInDb() {
+        DbService dbService = new DbService();
+        User user = UserFactory.mainUser();
+        User userTest = UserFactory.testUser();
+        String oldEmail = user.getEmail();
+        String password = user.getPassword();
+        String newEmail = userTest.getEmail();
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .getProfile();
+        String dbEmail = dbService.getUserEmail(oldEmail);
+        Assert.assertEquals(dbEmail, oldEmail, "Email not present in DataBase");
+        profilePage.currentPass(password)
+                .setNewEmail(newEmail);
+        Assert.assertTrue(profilePage.getErrorMessage()
+                .contains("already been taken"), "Existed email has been accepted");
+        profilePage.currentPass(password)
+                .setNewEmail(oldEmail);
+        Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
     }
 }

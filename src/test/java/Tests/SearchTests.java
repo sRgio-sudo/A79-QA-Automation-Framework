@@ -15,7 +15,7 @@ public class SearchTests extends BaseTest {
     @Test(description = "Koel | Search | Verify clearing search query")
     public void searchClearingTest() {
         User user = UserFactory.mainUser();
-        String query = "Epic";
+        String query = "Dark Days";
         SearchPage searchPage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAs(user)
