@@ -8,9 +8,10 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="true">
         <classes>
-            <class name="Tests.SearchTests">
+            <class name="Tests.ProfilePageTest">
                 <methods>
-                    <include name="searchNonExistingQueryTest"/>
+                    <include name="changeEmail"/>
+                    <include name="verifyEmailChangedInDB"/>
                 </methods>
             </class>
         </classes>

@@ -139,7 +139,6 @@ public class ProfilePageTest extends BaseTest {
     @Test(description = "Koel | Profile | Update email |" +
             " User is able to update account email")
     public void changeEmail() {
-        DbService dbService = new DbService();
         User user = UserFactory.mainUser();
         String password = user.getPassword();
         String oldEmail = user.getEmail();
@@ -152,9 +151,6 @@ public class ProfilePageTest extends BaseTest {
                 .setNewEmail(newEmail);
         Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"), "No success toast");
         profilePage.waitClearExitButton();
-        //Check new email in Db
-        String dbEmail = dbService.getUserEmail(newEmail);
-        Assert.assertEquals(dbEmail, newEmail, "Email was not updated in DataBase");
         //Returning to the Login Page and check old email
         profilePage.getLoginPage();
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());
@@ -169,7 +165,28 @@ public class ProfilePageTest extends BaseTest {
                 .currentPass(password)
                 .setNewEmail(oldEmail);
         Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
+    }
 
+    @Test(description = "Koel | Update email | Verify email was updated correctly in DB")
+    public void verifyEmailChangedInDB() throws InterruptedException {
+        DbService dbService = new DbService();
+        User user = UserFactory.mainUser();
+        String password = user.getPassword();
+        String oldEmail = user.getEmail();
+        String newEmail = "automation.internstudent@testpro.io";
+        ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
+                .openPage()
+                .loginAs(user)
+                .getProfile();
+        String dbOldEmail = dbService.getUserEmail(oldEmail);
+        Assert.assertEquals(dbOldEmail, oldEmail, "Email not present in DataBase");
+        profilePage.currentPass(password)
+                .setNewEmail(newEmail);
+        Thread.sleep(3000);
+        String dbNewEmail = dbService.getUserEmail(newEmail);
+        Assert.assertEquals(dbNewEmail, newEmail, "Email not updated in DataBase");
+        profilePage.currentPass(password)
+                .setNewEmail(oldEmail);
     }
 
     @Test(description = "Koel | Profile | Update email | " +
@@ -220,7 +237,7 @@ public class ProfilePageTest extends BaseTest {
         soft.assertAll();
     }
 
-    @Test (description = "Regression| Update email | " +
+    @Test(description = "Regression| Update email | " +
             "User is not able to update email with already registered email")
     public void checkEmailAlreadyExistsInDb() {
         DbService dbService = new DbService();

@@ -32,6 +32,7 @@
                 <methods>
                     <include name="changeEmail"/>
                     <include name="checkEmailAlreadyExists"/>
+                    <include name="verifyEmailChangedInDB"/>
                 </methods>
             </class>
         </classes>

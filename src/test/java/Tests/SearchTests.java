@@ -48,29 +48,42 @@ public class SearchTests extends BaseTest {
     public void searchResultsTest() {
         SoftAssert soft = new SoftAssert();
         User user = UserFactory.mainUser();
-        String query = "Dark";
+        String song = "Dark Days";
+        String artist = "Grav";
+        String album = "Airbit";
         SearchPage searchPage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAs(user)
                 .getSearchPage()
-                .enterSearchQuery(query);
+                .enterSearchQuery(song);
         soft.assertFalse(searchPage.isSongResultEmpty(), "Song should present in results");
-        soft.assertTrue(searchPage.isArtistResultEmpty(), "Artist should not be present in results");
+        searchPage.clearSearchField()
+                        .enterSearchQuery(artist);
+        soft.assertFalse(searchPage.isArtistResultEmpty(), "Artist should present in results");
+        searchPage.clearSearchField()
+                .enterSearchQuery(album);
         soft.assertFalse(searchPage.isAlbumResultEmpty(), "Album should present in results");
         soft.assertAll();
     }
 
     @Test(description = "Koel | Search | Verify leading and trailing white spaces are ignored")
     public void searchWithSpacesTest() {
+        SoftAssert soft = new SoftAssert();
         User user = UserFactory.mainUser();
-        String query = "  Pluto  ";
+        String queryA = "  Pluto";
+        String queryB = "Pluto  ";
         SearchPage searchPage = new LoginPage(DriverManager.getDriver())
                 .openPage()
                 .loginAs(user)
                 .getSearchPage()
-                .enterSearchQuery(query);
-        Assert.assertFalse(searchPage
-                .isSongResultEmpty(), "Song should present in results for [" + query + "]");
+                .enterSearchQuery(queryA);
+        soft.assertFalse(searchPage
+                .isSongResultEmpty(), "Song should present in results for [" + queryA + "]");
+        searchPage.clearSearchField()
+                .enterSearchQuery(queryB);
+        soft.assertFalse(searchPage
+                .isSongResultEmpty(), "Song should present in results for [" + queryB + "]");
+        soft.assertAll();
     }
 
     @Test(description = "Koel | Search | Verify search is case sensitive")
