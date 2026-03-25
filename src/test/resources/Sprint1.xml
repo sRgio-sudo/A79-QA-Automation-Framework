@@ -6,16 +6,16 @@
         <listener class-name="utils.TestListener"/>
     </listeners>
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
-    <test name="Sprint1 Tests" parallel="methods" thread-count="2">
+    <test name="Sprint1 tests" parallel="methods" thread-count="2">
         <classes>
-            <class name="Tests.LoginTests">
+            <class name="tests.ui.LoginTests">
                 <methods>
                     <include name="successfulRegistrationAndVerifyDb"/>
                     <include name="registerWithExistedEmail"/>
                     <include name="registerWithInvalidEmailScenarios"/>
                 </methods>
             </class>
-            <class name="Tests.PlayListTests">
+            <class name="tests.ui.PlayListTests">
                 <methods>
                     <include name="createPlayListAndVerifyInDb"/>
                     <include name="checkPlayListDuplicateName"/>
@@ -24,9 +24,9 @@
             </class>
         </classes>
     </test>
-    <test name="Sequential Profile Tests" parallel="none">
+    <test name="Sequential Profile tests" parallel="none">
         <classes>
-            <class name="Tests.ProfilePageTest">
+            <class name="tests.ui.ProfilePageTest">
                 <methods>
                     <include name="verifyPasswordHashChangedInDb"/>
                     <include name="changePassword"/>

@@ -8,19 +8,19 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="true">
         <classes>
-            <class name="Tests.ProfilePageTest">
+            <class name="tests.ui.ProfilePageTest">
                 <methods>
                     <include name="changeEmailValidation"/>
                     <include name="changeEmail"/>
                     <include name="checkEmailAlreadyExistsInDb"/>
                 </methods>
             </class>
-            <class name="Tests.SearchTests">
+            <class name="tests.ui.SearchTests">
                 <methods>
                     <include name="searchClearingTest"/>
                 </methods>
             </class>
-            <class name="Tests.PlayListTests">
+            <class name="tests.ui.PlayListTests">
                 <methods>
                     <include name="checkFavoritesEmptyState"/>
                 </methods>

@@ -9,18 +9,18 @@
     <parameter name="headLess" value="true"/>
     <test name="Smoke Test" preserve-order="true">
         <classes>
-            <class name="Tests.LoginTests">
+            <class name="tests.ui.LoginTests">
                 <methods>
                     <include name="loginValidData"/>
                     <include name="registrationLinkCheck"/>
                 </methods>
             </class>
-            <class name="Tests.ProfilePageTest">
+            <class name="tests.ui.ProfilePageTest">
                 <methods>
                     <include name="updateProfileName"/>
                 </methods>
             </class>
-            <class name="Tests.PlayerTests">
+            <class name="tests.ui.PlayerTests">
                 <methods>
                     <include name="playAnySong"/>
                 </methods>

@@ -1,6 +1,6 @@
 package utils;
 
-import api.AuthApi;
+import api.AuthApiClient;
 
 public class TokenManager {
 
@@ -9,14 +9,17 @@ public class TokenManager {
     public static String getToken() {
 
         if (token == null) {
-            AuthApi authApi = new AuthApi();
+            AuthApiClient authApi = new AuthApiClient();
 
             token = authApi.login(
                     ConfigReader.getProperty("api.user.email"),
                     ConfigReader.getProperty("api.user.password")
             );
         }
-
         return token;
+    }
+
+    public static void resetToken(){
+        token=null;
     }
 }

@@ -1,4 +1,4 @@
-package Tests;
+package tests.ui;
 
 import api.ApiNetworkInterceptor;
 import db.DbService;

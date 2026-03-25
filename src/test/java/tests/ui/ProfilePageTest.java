@@ -1,4 +1,4 @@
-package Tests;
+package tests.ui;
 
 import db.DbService;
 import drivers.BaseTest;

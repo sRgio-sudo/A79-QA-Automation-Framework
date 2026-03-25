@@ -17,7 +17,7 @@ The goal of this project is to cover user paths including Email update, Search f
 3. Use `local.properties.example` as a template and fill in your actual credentials.
 4. Ensure you have the latest Chrome browser installed (v145+).
 
-## Running Tests
+## Running tests
 To run the full sprint suite (including parallel and sequential tests) use Sprint1.xml:
 ```bash
 ./gradlew clean test -DsuiteXmlFile=Sprint2.xml 

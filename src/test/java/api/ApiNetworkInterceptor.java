@@ -26,6 +26,7 @@ public class ApiNetworkInterceptor {
             int status = response.getResponse().getStatus();
 
             if (url.contains(endpointPart) && (status == 200 || status == 302)) {
+                System.out.println("Download URL: " + url);
                 isHitDetected[0] = true;
             }
         });

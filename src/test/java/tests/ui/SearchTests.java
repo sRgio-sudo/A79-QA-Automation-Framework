@@ -1,4 +1,4 @@
-package Tests;
+package tests.ui;
 
 import drivers.BaseTest;
 import drivers.DriverManager;

@@ -8,10 +8,10 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="FullTest" preserve-order="false">
         <classes>
-            <class name="Tests.LoginTests"/>
-            <class name="Tests.PlayerTests"/>
-            <class name="Tests.PlayListTests"/>
-            <class name="Tests.ProfilePageTest"/>
+            <class name="tests.ui.LoginTests"/>
+            <class name="tests.ui.PlayerTests"/>
+            <class name="tests.ui.PlayListTests"/>
+            <class name="tests.ui.ProfilePageTest"/>
         </classes>
     </test>
 </suite>
