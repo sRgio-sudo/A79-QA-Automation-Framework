@@ -6,6 +6,7 @@ The goal of this project is to cover user paths including Email update, Search f
 
 ## Tech Stack
 * **Java 21** (JDK 21)
+* **REST-Assured** (v5.4.0)
 * **Selenium WebDriver** (v4.41.0)
 * **TestNG** (Testing Framework)
 * **Gradle** (Build tool)
@@ -20,9 +21,5 @@ The goal of this project is to cover user paths including Email update, Search f
 ## Running tests
 To run the full sprint suite (including parallel and sequential tests) use Sprint1.xml:
 ```bash
-./gradlew clean test -DsuiteXmlFile=Sprint2.xml 
-```
-To run the validated regression suite (including network and DB checks):
-```bash
-./gradlew clean test -DsuiteXmlFile=regression.xml
+./gradlew clean test -DsuiteXmlFile=Sprint4.xml 
 ```

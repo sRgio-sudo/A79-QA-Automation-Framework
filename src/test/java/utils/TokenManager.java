@@ -5,6 +5,7 @@ import api.AuthApiClient;
 public class TokenManager {
 
     private static String token;
+    private static String tokenSecondUser;
 
     public static String getToken() {
 
@@ -21,5 +22,18 @@ public class TokenManager {
 
     public static void resetToken(){
         token=null;
+    }
+
+    public static String getTokenSecondAccount() {
+
+        if (tokenSecondUser == null) {
+            AuthApiClient authApi = new AuthApiClient();
+
+            tokenSecondUser = authApi.login(
+                                        ConfigReader.getProperty("user.test.email"),
+                    ConfigReader.getProperty("user.test.password")
+            );
+        }
+        return tokenSecondUser;
     }
 }

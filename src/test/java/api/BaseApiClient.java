@@ -17,7 +17,22 @@ public class BaseApiClient {
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON);
     }
+//    protected RequestSpecification withAuth() {
+//        return request.header("Authorization", "Bearer " + TokenManager.getToken());
+//    }
+
     protected RequestSpecification withAuth() {
-        return request.header("Authorization", "Bearer " + TokenManager.getToken());
+        return RestAssured.given()
+                .baseUri(ConfigReader.getProperty("base.url"))
+                .header("Authorization", "Bearer " + TokenManager.getToken())
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON);
+    }
+
+    protected  RequestSpecification withCustomToken(String customToken) {
+        return RestAssured.given()
+                .baseUri(ConfigReader.getProperty("base.url"))
+                .header("Accept", "application/json")
+                .header("Authorization", "Bearer " + customToken);
     }
 }

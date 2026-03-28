@@ -42,7 +42,7 @@ public class TestDataProviders extends BaseTest {
                 {"Ab1!cd2#e", false}, //9 symb. below bound
                 {"Ab1!cd2#ef3$gh4", true}, //15 symb. Upper bond
                 {"Ab1!cd2#ef3$gh4z", false}, //16. Above bond
-                {"newp@ss!234",false}, //all lower case
+                {"newp@ss!234", false}, //all lower case
                 {"NEWP@SS!234", false}, //all upper case
                 {"NewPAssThre", false}, //no numbers
                 {"82!23456789091", false}, //no letters
@@ -53,21 +53,31 @@ public class TestDataProviders extends BaseTest {
 
     @DataProvider(name = "RegistrationNegativeScenarios")
     public Object[][] registrationNegativeScenarios() {
-        return new Object[][] {
-                { "testtestpro.io", "Email without @ symbol" },
-                { "test@testproio", "Email without dot symbol" },
-                { "test@gmail.com", "Email without @testpro.io domain" },
-                { "test+@testpro.io", "Email with + symbol before @" }
+        return new Object[][]{
+                {"testtestpro.io", "Email without @ symbol"},
+                {"test@testproio", "Email without dot symbol"},
+                {"test@gmail.com", "Email without @testpro.io domain"},
+                {"test+@testpro.io", "Email with + symbol before @"}
         };
     }
 
     @DataProvider(name = "EmailChangeNegativeScenarios")
     public Object[][] emailChangeNegativeScenarios() {
-        return new Object[][] {
+        return new Object[][]{
 //                { "sergei.trofimov1testpro.io", "Email without @ symbol" }, // using for Sprint2 | Regression
-                { "sergei.trofimov1@testpro", "Email without dot symbol" }, // using for Sprint2 | Regression
+                {"sergei.trofimov1@testpro", "Email without dot symbol"}, // using for Sprint2 | Regression
 //                { "sergei.trofimov1@", "Email without @testpro.io domain" },
 //                { "sergei.trofimov+test1@testpro.io", "Email with + symbol before @" }
+        };
+    }
+
+    @DataProvider(name = "ApiPlaylistName")
+    public Object[][] getApiPlaylistName() {
+        return new Object[][]{
+                {DataGenerator.generateStringLength(256), 200},
+                {DataGenerator.generateStringLength(257), 400},
+                {DataGenerator.generateStringLength(0), 422},
+                {"   ", 422}
         };
     }
 }
