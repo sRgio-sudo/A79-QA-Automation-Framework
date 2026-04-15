@@ -8,9 +8,14 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="true">
         <classes>
+            <class name="tests.api.LoginApiTests">
+                <methods>
+                    <include name="loginWithEmptyPassword"/>
+                    <include name="apiValidLogin"/>
+                </methods>
+            </class>
             <class name="tests.ui.ProfilePageTest">
                 <methods>
-                    <include name="changeEmailValidation"/>
                     <include name="changeEmail"/>
                     <include name="checkEmailAlreadyExistsInDb"/>
                 </methods>

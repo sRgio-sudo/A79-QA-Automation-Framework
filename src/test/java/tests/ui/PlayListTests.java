@@ -14,10 +14,9 @@ import pages.BasePage;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.PlayerComponent;
-import utils.TestDataProviders;
 
 public class PlayListTests extends BaseTest {
-    @Test
+    @Test (enabled = false, description = "Will be refactored in Playwright framework")
     public void playSongFromAllSongList() {
         PlayerComponent player = new PlayerComponent(DriverManager.getDriver());
         HomePage homePage = new LoginPage(DriverManager.getDriver())
@@ -94,7 +93,7 @@ public class PlayListTests extends BaseTest {
         homePage.deletePlaylist(playListName);
     }
 
-    @Test
+    @Test (enabled = false, description = "Will be refactored in Playwright framework")
     public void checkSmartPlayList() {
         String playListName = "SmartPlayListToDelete";
         String sortCriteria = "Album";
@@ -133,8 +132,8 @@ public class PlayListTests extends BaseTest {
         }
     }
 
-    @Test(dataProvider = "playListNames", dataProviderClass = TestDataProviders.class,
-            description = "Koel | Create New Playlist | Boundary Testing")
+    @Test(enabled = false, description = "Will be refactored in Playwright framework")//(dataProvider = "playListNames", dataProviderClass = TestDataProviders.class,
+//            description = "Koel | Create New Playlist | Boundary Testing")
     public void checkPlayListNameParameters(String name, boolean valid) {
         User user = UserFactory.mainUser();
         HomePage homePage = new LoginPage(DriverManager.getDriver())
@@ -195,8 +194,8 @@ public class PlayListTests extends BaseTest {
         Assert.assertTrue(homePage.isNoFavoritesPresent(), " 'No favorites yet' message not displayed");
     }
 
-    @Test(description = "Koel | Favorites | " +
-            "User should be able to download songs from the Favorites playlist page")
+    @Test(enabled = false, description = "Will be refactored in Playwright framework")//(description = "Koel | Favorites | " +
+//            "User should be able to download songs from the Favorites playlist page")
     public void checkFavoritesDownload() {
         ChromeDriver driver = (ChromeDriver) DriverManager.getDriver();
         ApiNetworkInterceptor interceptor = new ApiNetworkInterceptor(driver);

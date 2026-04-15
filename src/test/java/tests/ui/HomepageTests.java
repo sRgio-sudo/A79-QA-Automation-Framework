@@ -31,7 +31,7 @@ public class HomepageTests extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(description = "Koel | Albums | Check albums contain name and artist")
+    @Test(enabled = false, description = "Will be refactored in Playwright framework")//(description = "Koel | Albums | Check albums contain name and artist")
     public void checkAlbumCoverName() {
         SoftAssert softAssert = new SoftAssert();
         User user = UserFactory.mainUser();

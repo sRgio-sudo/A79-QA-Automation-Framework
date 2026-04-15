@@ -29,7 +29,7 @@ public class ProfilePageTest extends BaseTest {
         Assert.assertEquals(actualName, newName);
     }
 
-    @Test
+    @Test (enabled = false, description = "Will be refactored in Playwright framework")
     public void changeCurrentTheme() {
         ProfilePage profilePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
@@ -210,8 +210,8 @@ public class ProfilePageTest extends BaseTest {
         Assert.assertTrue(profilePage.getSuccessMessage().contains("updated"));
     }
 
-    @Test(dataProvider = "EmailChangeNegativeScenarios", dataProviderClass = TestDataProviders.class,
-            description = "Koel | Update email | Change email validation scenarios")
+    @Test(enabled = false, description = "Will be refactored in Playwright framework") // dataProvider = "EmailChangeNegativeScenarios", dataProviderClass = TestDataProviders.class,
+//            description = "Koel | Update email | Change email validation scenarios")
     public void changeEmailValidation(String email, String scenarioDescription) {
         SoftAssert soft = new SoftAssert();
         User user = UserFactory.mainUser();

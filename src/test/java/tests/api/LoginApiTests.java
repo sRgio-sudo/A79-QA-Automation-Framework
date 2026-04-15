@@ -45,7 +45,7 @@ public class LoginApiTests {
         LoginAssertions.loginFail(response);
     }
 
-    @Test(description = "Koel | API | POST Login TO /api/me with valid credentials")
+    @Test (description = "Koel | API | POST Login TO /api/me with valid credentials")
     public void apiValidLogin() {
         Response response = authApiClient.loginRaw(
                 ConfigReader.getProperty("user.email"),
