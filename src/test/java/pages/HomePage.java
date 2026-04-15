@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends BasePage {
@@ -30,6 +31,12 @@ public class HomePage extends BasePage {
     private By firstSongFromFavorites = By.xpath("//section[@id='favoritesWrapper']//table[@class='items']//tr[1]");
     private By linkFavorites = By.cssSelector("a[href='#!/favorites']");
     private By downloadButton = By.cssSelector("li.download");
+    private By albumsButton = By.cssSelector("a[href='#!/albums']");
+    private By allSongsButtin = By.cssSelector("a[href='#!/songs']");
+    private By shuffleAlbum = By.cssSelector("a[class='shuffle-album']");
+    private By downloadAlbum = By.cssSelector("a[class='download-album']");
+    private By albumCard = By.cssSelector("article[data-test='album-card']");
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -226,7 +233,7 @@ public class HomePage extends BasePage {
     }
 
     private By getFavoritesLikeSelector(String song) {
-        String liked = "//section[@id='favoritesWrapper']//tr[contains(., '"+song+"')]//i";
+        String liked = "//section[@id='favoritesWrapper']//tr[contains(., '" + song + "')]//i";
         return By.xpath(liked);
     }
 
@@ -244,7 +251,7 @@ public class HomePage extends BasePage {
     public HomePage dislikeSongFromFavorites(String song) {
         WebElement selectedSong = waitVisibility(By
                 .xpath("//section[@id='favoritesWrapper']" +
-                        "//tr[contains(., '"+song+"')]//button[@data-test='like-btn']"));
+                        "//tr[contains(., '" + song + "')]//button[@data-test='like-btn']"));
         selectedSong.click();
         return this;
     }
@@ -252,10 +259,10 @@ public class HomePage extends BasePage {
     public boolean isSongPresentFavorites(String song) {
         try {
             waitVisibility(By
-                    .xpath("//table[@class='items']//td[contains(.,'"+song+"')]"));
+                    .xpath("//table[@class='items']//td[contains(.,'" + song + "')]"));
             return true;
-        }catch (TimeoutException e) {
-                return false;
+        } catch (TimeoutException e) {
+            return false;
         }
     }
 
@@ -277,10 +284,74 @@ public class HomePage extends BasePage {
         return waitVisibility(noFavoritesMessage).isDisplayed();
     }
 
-        public HomePage downloadFirstSong (){
-            contextClick(firstSongFromFavorites);
-            click(downloadButton);
+    public HomePage downloadFirstSong() {
+        contextClick(firstSongFromFavorites);
+        click(downloadButton);
         return this;
-        }
+    }
 
+    public HomePage clickAlbumsButton() {
+        click(albumsButton);
+        return this;
+    }
+
+    public List<String> getAlbumCoverStyles() {
+        List<WebElement> albumCover = driver.findElements(By
+                .xpath("//article[@data-test='album-card']//span[@class='cover']"));
+        List<String> styles = new ArrayList<>();
+        for (WebElement cover : albumCover) {
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].scrollIntoView(true);", cover);
+            styles.add(cover.getAttribute("style"));
+        }
+        return styles;
+    }
+
+    public List<String> getAllAlbumNames() {
+        List<WebElement> names = driver.findElements(By
+                .cssSelector("article[data-test='album-card'] .name"));
+        List<String> albumNames = new ArrayList<>();
+        for (WebElement name : names) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", name);
+            albumNames.add(name.getAttribute("innerText").trim());
+        }
+        return albumNames;
+    }
+
+    public List<String> getAllArtistNames() {
+        List<WebElement> artists = driver.findElements(By
+                .cssSelector("article[data-test='album-card'] .artist"));
+        List<String> artistNames = new ArrayList<>();
+        for (WebElement artist : artists) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", artist);
+            artistNames.add(artist.getAttribute("innerText").trim());
+        }
+        return artistNames;
+    }
+
+    private List<WebElement> getVisibleAlbumCards() {
+        return driver.findElements(albumCard).stream()
+                .filter(WebElement::isDisplayed)
+                .filter(e -> e.getSize().getHeight() > 0)
+                .toList();
+    }
+
+    public void hoverOverAlbum(int index) {
+        List<WebElement> cards = getVisibleAlbumCards();
+        if (index >= cards.size()) return;
+        WebElement targetCard = cards.get(index);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", targetCard);
+        wait.until(ExpectedConditions.elementToBeClickable(targetCard));
+        hoverTo(targetCard);
+    }
+
+    public boolean isDownloadIconDisplayed(int index) {
+        List<WebElement> cards = getVisibleAlbumCards();
+        return cards.get(index).findElement(downloadAlbum).isDisplayed();
+    }
+
+    public boolean isShuffleIconDisplayed(int index) {
+        List<WebElement> cards = getVisibleAlbumCards();
+        return cards.get(index).findElement(shuffleAlbum).isDisplayed();
+    }
 }

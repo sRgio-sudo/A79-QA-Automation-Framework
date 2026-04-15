@@ -54,6 +54,10 @@ public class BasePage {
         actions.moveToElement(findElement(locator)).perform();
     }
 
+    public void hoverTo(WebElement element) {
+        actions.moveToElement(element).perform();
+    }
+
     protected WebElement findElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }

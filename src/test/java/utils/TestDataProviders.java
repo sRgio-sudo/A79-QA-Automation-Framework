@@ -28,10 +28,14 @@ public class TestDataProviders extends BaseTest {
     @DataProvider(name = "playListNames")
     public static Object[][] getPlayListNames() {
         return new Object[][]{
-                {"Ab", false},
-                {"AbC", true},
-                {"123456789A", true},
-                {"1234567890A", false},
+                {"A",true},
+                {DataGenerator.generateStringLength(256),true},
+                {DataGenerator.generateStringLength(257),false},
+                {DataGenerator.generateStringLength(0),false},
+//                {"Ab", false},
+//                {"AbC", true},
+//                {"123456789A", true},
+//                {"1234567890A", false},
         };
     }
 

@@ -8,12 +8,9 @@
     <parameter name="BaseURL" value="https://qa.koel.app/"/>
     <test name="Regression Test" preserve-order="true">
         <classes>
-            <class name="tests.api.PlaylistTests">
+            <class name="tests.ui.PlayListTests">
                 <methods>
-<!--                    <include name="getPlayilstFromUser"/>-->
-                    <include name="createPlaylistWithValidName"/>
-                    <include name="createPlaylistWithDuplicateName"/>
-                    <include name="validatePlaylistName"/>
+                    <include name="addSongToPlaylistAndVerifyWithDB"/>
                 </methods>
             </class>
         </classes>

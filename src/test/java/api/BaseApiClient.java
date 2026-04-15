@@ -17,9 +17,6 @@ public class BaseApiClient {
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON);
     }
-//    protected RequestSpecification withAuth() {
-//        return request.header("Authorization", "Bearer " + TokenManager.getToken());
-//    }
 
     protected RequestSpecification withAuth() {
         return RestAssured.given()

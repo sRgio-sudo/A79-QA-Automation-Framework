@@ -56,10 +56,33 @@ public class DbService {
                     return rs.getString("email");
                 }
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Failed to find user email", e);
         }
         return null;
+    }
+
+    public int countSongsInPlaylist(String playListName, String userEmail) {
+        String query = "SELECT COUNT(*) FROM playlist_song " +
+                "WHERE playlist_id = (SELECT id FROM playlists " +
+                "WHERE name = ? " +
+                "AND user_id = (SELECT id FROM users " +
+                "WHERE email = ?));";
+        try (PreparedStatement ps = DbConnectionManager
+                .getConnection()
+                .prepareStatement(query)) {
+            ps.setString(1, playListName);
+            ps.setString(2, userEmail);
+            try
+                    (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }catch (SQLException e) {
+            return 0;
+        }
+        return 0;
     }
 }
 

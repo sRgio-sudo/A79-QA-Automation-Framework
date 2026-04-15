@@ -9,6 +9,7 @@ import models.UserFactory;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.BasePage;
 import pages.HomePage;
 import pages.LoginPage;
@@ -47,20 +48,31 @@ public class PlayListTests extends BaseTest {
     }
 
 
-    @Test
-    public void addSongToPlaylist() {
+    @Test(description = "Koel | New Playlist | Add song to a playlist and verify in Database")
+    public void addSongToPlaylistAndVerifyWithDB() {
+        SoftAssert softAssert = new SoftAssert();
+        User user = UserFactory.mainUser();
         String songToAdd = "Samurai";
         String playList = "Playlist2";
+        String email = user.getEmail();
+        DbService dbService = new DbService();
+        int countSongsBefore = dbService.countSongsInPlaylist(playList, email);
+        System.out.println(playList + " has " + countSongsBefore + " songs before test");
         HomePage homePage = new LoginPage(DriverManager.getDriver())
                 .openPage()
-                .loginAsValidUser()
+                .loginAs(user)
                 .songSearch(songToAdd)
                 .addSongToPlaylist(songToAdd, playList);
         String getSuccessMessage = homePage
                 .successMessage()
                 .getText();
-        Assert.assertTrue(getSuccessMessage.contains("Added"));
-        Assert.assertTrue(getSuccessMessage.contains(playList));
+        softAssert.assertTrue(getSuccessMessage.contains("Added"));
+        softAssert.assertTrue(getSuccessMessage.contains(playList));
+        int countSongsAfter = dbService.countSongsInPlaylist(playList, email);
+        System.out.println(playList + " has " + countSongsAfter + " songs after test");
+        softAssert.assertEquals(countSongsAfter, countSongsBefore + 1, "Song count not changed");
+        softAssert.assertAll();
+        //cleanup
         homePage.deleteAddedSong(playList, songToAdd)
                 .successMessage();
     }
@@ -197,6 +209,7 @@ public class PlayListTests extends BaseTest {
                 .downloadFirstSong();
         Assert.assertTrue(interceptor.whaitAndCheckStatus(2), "Download request was not sent to server");
     }
+
 }
 
 
